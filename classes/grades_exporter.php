@@ -96,20 +96,16 @@ class grades_exporter
 
         $user = $DB->get_record('user', ['id' => $this->userid], '*', MUST_EXIST);
 
-        $html = '<style>' . $this->get_word_compatible_css() . '</style>';
-
         $courses = $this->get_user_courses();
 
         if (empty($courses)) {
-            $html .= '<div class="alert">' . get_string('student_nocourses', 'local_smartdashboard') . '</div>';
-        } else {
-            $html .= $this->get_filter_ui_html($courses);
+            return '<div class="alert alert-info">' . get_string('student_nocourses', 'local_smartdashboard') . '</div>';
+        }
 
-            // Overall summary (Charts) removed per user request
+        $html = $this->get_filter_ui_html($courses, true);
 
-            foreach ($courses as $course) {
-                $html .= $this->get_course_grades_html($user, $course);
-            }
+        foreach ($courses as $course) {
+            $html .= $this->get_course_grades_html($user, $course, true);
         }
 
         return $html;
@@ -233,7 +229,7 @@ class grades_exporter
      * @param stdClass $course Course object
      * @return string HTML table
      */
-    private function get_course_grades_html($user, $course) {
+    private function get_course_grades_html($user, $course, $is_inline = false) {
         global $CFG;
 
         try {
@@ -241,8 +237,8 @@ class grades_exporter
             $gpr = new \grade_plugin_return(['type' => 'report', 'plugin' => 'studentgrades', 'courseid' => $course->id]);
             $gtree = new \grade_tree($course->id, false, false, null, $gpr);
 
-            $html = '<div class="course-section" data-course="' . htmlspecialchars(format_string($course->fullname)) . '">';
-            $html .= '<h2 class="course-name">' . format_string($course->fullname) . '</h2>';
+            $html = '<div class="course-section mb-4" data-course="' . htmlspecialchars(format_string($course->fullname)) . '">';
+            $html .= '<h2 class="course-name h5 fw-bold mb-0">' . format_string($course->fullname) . '</h2>';
 
             // Extract item data for the course dashboard charts
             $items_data = [];
@@ -271,27 +267,37 @@ class grades_exporter
             $conic_gradient = implode(', ', $conic_parts);
 
             // Render Dashboard UI
-            $html .= '<div style="background: white; padding: 25px; border-left: 1px solid #dee2e6; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px;">';
-            $html .= '<h3 style="margin-top: 0; margin-bottom: 25px; color: #1a2b4c; font-size: 1.3em;">Activity Distribution</h3>';
+            if ($is_inline) {
+                $html .= '<div class="activity-distribution-card card p-4 mb-3 border-0 shadow-sm" style="border-top-left-radius: 0; border-top-right-radius: 0;">';
+                $html .= '<h3 class="h6 fw-bold mb-3 activity-distribution-title">Activity Distribution</h3>';
+            } else {
+                $html .= '<div style="background: white; padding: 25px; border-left: 1px solid #dee2e6; border-right: 1px solid #dee2e6; border-bottom: 1px solid #dee2e6; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 20px;">';
+                $html .= '<h3 style="margin-top: 0; margin-bottom: 25px; color: #1a2b4c; font-size: 1.3em;">Activity Distribution</h3>';
+            }
             $html .= '<div style="display: flex; flex-wrap: wrap; gap: 40px;">';
 
             // Left: Donut Chart + Legend
             $html .= '<div style="flex: 1; min-width: 280px; display: flex; align-items: center; justify-content: center; gap: 30px;">';
             $html .= '<div style="width: 160px; height: 160px; border-radius: 50%; background: conic-gradient(' . $conic_gradient . '); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;">';
-            $html .= '<div style="width: 80px; height: 80px; border-radius: 50%; background: white;"></div>';
-            // Optional subtle white border slices
-            $html .= '<div style="position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px white;"></div>';
+            if ($is_inline) {
+                $html .= '<div class="chart-donut-hole" style="width: 80px; height: 80px; border-radius: 50%;"></div>';
+            } else {
+                $html .= '<div style="width: 80px; height: 80px; border-radius: 50%; background: white;"></div>';
+                $html .= '<div style="position: absolute; inset: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px white;"></div>';
+            }
             $html .= '</div>';
 
             // Legend
-            $html .= '<div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.85em; color: #555;">';
+            $legend_class = $is_inline ? 'activity-legend' : '';
+            $legend_style = $is_inline ? 'display: flex; flex-direction: column; gap: 8px; font-size: 0.85em;' : 'display: flex; flex-direction: column; gap: 8px; font-size: 0.85em; color: #555;';
+            $html .= '<div class="' . $legend_class . '" style="' . $legend_style . '">';
             foreach ($items_data as $item) {
                 $name = $item['name'];
                 if (mb_strlen($name) > 22) {
                     $name = mb_substr($name, 0, 19) . '...';
                 }
                 $html .= '<div style="display: flex; align-items: center;">';
-                $html .= '<span style="width: 24px; height: 10px; background: ' . $item['color'] . '; margin-right: 10px; flex-shrink: 0; display: inline-block;"></span>';
+                $html .= '<span style="width: 24px; height: 10px; background: ' . $item['color'] . '; margin-right: 10px; flex-shrink: 0; display: inline-block; border-radius: 2px;"></span>';
                 $html .= '<span>' . htmlspecialchars($name) . '</span>';
                 $html .= '</div>';
             }
@@ -303,18 +309,27 @@ class grades_exporter
 
             // Right: Bar Chart
             $html .= '<div style="flex: 1.5; min-width: 300px; display: flex; flex-direction: column; justify-content: flex-end;">';
-            $html .= '<div style="display: flex; align-items: flex-end; height: 180px; border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; position: relative; padding-left: 10px; gap: 15px; justify-content: space-around;">';
+            $bar_area_class = $is_inline ? 'chart-bar-area' : '';
+            $bar_area_style = $is_inline ? 'display: flex; align-items: flex-end; height: 180px; position: relative; padding-left: 10px; gap: 15px; justify-content: space-around;' : 'display: flex; align-items: flex-end; height: 180px; border-bottom: 1px solid #ccc; border-left: 1px solid #ccc; position: relative; padding-left: 10px; gap: 15px; justify-content: space-around;';
+            $html .= '<div class="' . $bar_area_class . '" style="' . $bar_area_style . '">';
 
             // Y-axis labels
-            $html .= '<div style="position: absolute; left: -28px; top: -5px; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.7em; color: #888;">';
+            $yaxis_class = $is_inline ? 'chart-y-axis' : '';
+            $yaxis_style = $is_inline ? 'position: absolute; left: -28px; top: -5px; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.7em;' : 'position: absolute; left: -28px; top: -5px; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.7em; color: #888;';
+            $html .= '<div class="' . $yaxis_class . '" style="' . $yaxis_style . '">';
             $html .= '<span>100</span><span>75</span><span>50</span><span>25</span><span>0</span>';
             $html .= '</div>';
 
             // Grid lines
-            $html .= '<div style="position: absolute; left: 0; right: 0; top: 25%; border-top: 1px solid #f0f0f0; z-index: 0;"></div>';
-            $html .= '<div style="position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid #f0f0f0; z-index: 0;"></div>';
-            $html .= '<div style="position: absolute; left: 0; right: 0; top: 75%; border-top: 1px solid #f0f0f0; z-index: 0;"></div>';
-            $html .= '<div style="position: absolute; left: 0; right: 0; top: 0%; border-top: 1px solid #f0f0f0; z-index: 0;"></div>';
+            $grid_class = $is_inline ? 'chart-grid-line' : '';
+            $grid_style = $is_inline ? 'position: absolute; left: 0; right: 0; top: 25%; z-index: 0;' : 'position: absolute; left: 0; right: 0; top: 25%; border-top: 1px solid #f0f0f0; z-index: 0;';
+            $html .= '<div class="' . $grid_class . '" style="' . $grid_style . '"></div>';
+            $grid_style50 = $is_inline ? 'position: absolute; left: 0; right: 0; top: 50%; z-index: 0;' : 'position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid #f0f0f0; z-index: 0;';
+            $html .= '<div class="' . $grid_class . '" style="' . $grid_style50 . '"></div>';
+            $grid_style75 = $is_inline ? 'position: absolute; left: 0; right: 0; top: 75%; z-index: 0;' : 'position: absolute; left: 0; right: 0; top: 75%; border-top: 1px solid #f0f0f0; z-index: 0;';
+            $html .= '<div class="' . $grid_class . '" style="' . $grid_style75 . '"></div>';
+            $grid_style0 = $is_inline ? 'position: absolute; left: 0; right: 0; top: 0%; z-index: 0;' : 'position: absolute; left: 0; right: 0; top: 0%; border-top: 1px solid #f0f0f0; z-index: 0;';
+            $html .= '<div class="' . $grid_class . '" style="' . $grid_style0 . '"></div>';
 
             // Bars
             foreach ($items_data as $item) {
@@ -322,14 +337,16 @@ class grades_exporter
                 if ($h <= 0) {
                     $h = 1; // Show tiny sliver for 0
                 }
-                $html .= '<div style="flex: 1; max-width: 35px; height: ' . $h . '%; background: ' . $item['color'] . '; position: relative; z-index: 1; border-radius: 0; min-width: 12px;">';
+                $html .= '<div style="flex: 1; max-width: 35px; height: ' . $h . '%; background: ' . $item['color'] . '; position: relative; z-index: 1; border-radius: 3px 3px 0 0; min-width: 12px;">';
 
                 // X-axis rotated label
                 $name = $item['name'];
                 if (mb_strlen($name) > 18) {
                     $name = mb_substr($name, 0, 15) . '...';
                 }
-                $html .= '<div style="position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%) rotate(-50deg); transform-origin: top left; font-size: 0.7em; white-space: nowrap; color: #666; text-align: right; width: 100px;">' . htmlspecialchars($name) . '</div>';
+                $xaxis_class = $is_inline ? 'chart-x-axis' : '';
+                $xaxis_style = $is_inline ? 'position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%) rotate(-50deg); transform-origin: top left; font-size: 0.7em; white-space: nowrap; text-align: right; width: 100px;' : 'position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%) rotate(-50deg); transform-origin: top left; font-size: 0.7em; white-space: nowrap; color: #666; text-align: right; width: 100px;';
+                $html .= '<div class="' . $xaxis_class . '" style="' . $xaxis_style . '">' . htmlspecialchars($name) . '</div>';
 
                 $html .= '</div>';
             }
@@ -340,8 +357,11 @@ class grades_exporter
             $html .= '</div>'; // End Flex Container
             $html .= '</div>'; // End Dashboard Container
 
-            $html .= '<div class="grade-table" style="margin-top: 20px;">';
-            $html .= '<table>';
+            $table_wrapper_class = $is_inline ? 'grade-table table-responsive mb-4' : 'grade-table';
+            $table_wrapper_style = $is_inline ? '' : 'style="margin-top: 20px;"';
+            $table_class = $is_inline ? 'table' : '';
+            $html .= '<div class="' . $table_wrapper_class . '" ' . $table_wrapper_style . '>';
+            $html .= '<table class="' . $table_class . '">';
             $html .= '<thead>';
             $html .= '<tr>';
             $html .= '<th>' . get_string('gradeitem', 'local_smartdashboard') . '</th>';
@@ -1237,26 +1257,48 @@ class grades_exporter
     /**
      * Generate Filter UI HTML
      */
-    private function get_filter_ui_html($courses) {
-        $html = '<div class="filter-controls" style="margin-bottom: 20px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">';
-        $html .= '<h3 style="margin-top: 0;">' . get_string('filtergrades', 'local_smartdashboard') . '</h3>';
-        $html .= '<div style="display: flex; gap: 15px; flex-wrap: wrap;">';
+    private function get_filter_ui_html($courses, $is_inline = false) {
+        if ($is_inline) {
+            $html = '<div class="grade-filter-card card border-0 shadow-sm p-3 mb-4">';
+            $html .= '<h3 class="h5 mb-3 fw-bold filter-title">' . get_string('filtergrades', 'local_smartdashboard') . '</h3>';
+            $html .= '<div class="d-flex gap-3 flex-wrap align-items-center">';
 
-        // Course Filter
-        $html .= '<div><label style="font-weight:bold; display:block;">' . get_string('coursename', 'local_smartdashboard') . ':</label>';
-        $html .= '<select id="course-filter" onchange="applyFilters()" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; min-width: 200px;">';
-        $html .= '<option value="">' . get_string('allcourses', 'local_smartdashboard') . '</option>';
-        foreach ($courses as $course) {
-            $html .= '<option value="' . htmlspecialchars(format_string($course->fullname)) . '">' . format_string($course->fullname) . '</option>';
+            // Course Filter
+            $html .= '<div class="flex-grow-1" style="min-width: 200px;"><label class="form-label small fw-bold mb-1 d-block">' . get_string('coursename', 'local_smartdashboard') . ':</label>';
+            $html .= '<select id="course-filter" class="form-select form-select-sm" onchange="applyFilters()">';
+            $html .= '<option value="">' . get_string('allcourses', 'local_smartdashboard') . '</option>';
+            foreach ($courses as $course) {
+                $html .= '<option value="' . htmlspecialchars(format_string($course->fullname)) . '">' . format_string($course->fullname) . '</option>';
+            }
+            $html .= '</select></div>';
+
+            // Category / Search Filter
+            $html .= '<div class="flex-grow-1" style="min-width: 200px;"><label class="form-label small fw-bold mb-1 d-block">' . get_string('categorysearch', 'local_smartdashboard') . ':</label>';
+            $html .= '<input type="text" id="category-filter" class="form-control form-control-sm" onkeyup="applyFilters()" placeholder="' . get_string('typetofilter', 'local_smartdashboard') . '">';
+            $html .= '</div>';
+
+            $html .= '</div></div>';
+        } else {
+            $html = '<div class="filter-controls" style="margin-bottom: 20px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">';
+            $html .= '<h3 style="margin-top: 0;">' . get_string('filtergrades', 'local_smartdashboard') . '</h3>';
+            $html .= '<div style="display: flex; gap: 15px; flex-wrap: wrap;">';
+
+            // Course Filter
+            $html .= '<div><label style="font-weight:bold; display:block;">' . get_string('coursename', 'local_smartdashboard') . ':</label>';
+            $html .= '<select id="course-filter" onchange="applyFilters()" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; min-width: 200px;">';
+            $html .= '<option value="">' . get_string('allcourses', 'local_smartdashboard') . '</option>';
+            foreach ($courses as $course) {
+                $html .= '<option value="' . htmlspecialchars(format_string($course->fullname)) . '">' . format_string($course->fullname) . '</option>';
+            }
+            $html .= '</select></div>';
+
+            // Category / Search Filter
+            $html .= '<div><label style="font-weight:bold; display:block;">' . get_string('categorysearch', 'local_smartdashboard') . ':</label>';
+            $html .= '<input type="text" id="category-filter" onkeyup="applyFilters()" placeholder="' . get_string('typetofilter', 'local_smartdashboard') . '" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; min-width: 200px;">';
+            $html .= '</div>';
+
+            $html .= '</div></div>';
         }
-        $html .= '</select></div>';
-
-        // Category / Search Filter
-        $html .= '<div><label style="font-weight:bold; display:block;">' . get_string('categorysearch', 'local_smartdashboard') . ':</label>';
-        $html .= '<input type="text" id="category-filter" onkeyup="applyFilters()" placeholder="' . get_string('typetofilter', 'local_smartdashboard') . '" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; min-width: 200px;">';
-        $html .= '</div>';
-
-        $html .= '</div></div>';
 
         $html .= '<script>
         function applyFilters() {

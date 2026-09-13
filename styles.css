@@ -1351,8 +1351,207 @@ body.path-local-smartdashboard header#page-header {
 }
 
 /* ===========================================================
-   Grade Details specific Dark Mode overrides
+   Grade Details specific styles (Base, Dark Mode, Light Mode)
    =========================================================== */
+
+/* Base Grade Details Styles */
+.course-section .course-name {
+    padding: 14px 20px;
+    border-radius: 12px 12px 0 0;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.grade-filter-card {
+    border-radius: 12px;
+}
+
+.activity-distribution-card {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.chart-donut-hole {
+    transition: background-color 0.2s ease;
+}
+
+.chart-bar-area {
+    margin-left: 30px;
+    border-bottom: 1px solid #e5e7eb;
+    border-left: 1px solid #e5e7eb;
+}
+
+.chart-grid-line {
+    border-top: 1px solid #f1f5f9;
+}
+
+.chart-y-axis,
+.chart-x-axis {
+    color: #6b7280;
+}
+
+.grade-table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.grade-table table {
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: collapse;
+}
+
+.grade-table th {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 16px;
+}
+
+.grade-table td {
+    padding: 10px 16px;
+    vertical-align: middle;
+}
+
+.grade-table .grade-value,
+.grade-table .grade-percentage {
+    font-weight: 600;
+}
+
+/* Grade Details — Dark Mode Overrides */
+.smartdashboard-dark .grade-filter-card {
+    background-color: #2b2d3e;
+    border: 1px solid #3e4152 !important;
+    color: #e3e2e2;
+}
+
+.smartdashboard-dark .grade-filter-card .filter-title {
+    color: #ffffff;
+}
+
+.smartdashboard-dark .course-section .course-name {
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    color: #ffffff;
+    border: 1px solid #3e4152;
+    border-bottom: none;
+}
+
+.smartdashboard-dark .activity-distribution-card {
+    background-color: #2b2d3e;
+    border: 1px solid #3e4152 !important;
+    border-top: none !important;
+    color: #e3e2e2;
+}
+
+.smartdashboard-dark .activity-distribution-title {
+    color: #ffffff;
+}
+
+.smartdashboard-dark .chart-donut-hole {
+    background-color: #2b2d3e !important;
+}
+
+.smartdashboard-dark .activity-legend {
+    color: #cbd5e1;
+}
+
+.smartdashboard-dark .chart-bar-area {
+    border-bottom: 1px solid #3e4152;
+    border-left: 1px solid #3e4152;
+}
+
+.smartdashboard-dark .chart-grid-line {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.smartdashboard-dark .chart-y-axis,
+.smartdashboard-dark .chart-x-axis {
+    color: #94a3b8;
+}
+
+.smartdashboard-dark .grade-table {
+    border: 1px solid #3e4152;
+    background-color: #2b2d3e;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.smartdashboard-dark .grade-table table {
+    background-color: #2b2d3e;
+    color: #e3e2e2;
+}
+
+.smartdashboard-dark .grade-table thead th {
+    background-color: #1f222e !important;
+    color: #fbbf24 !important;
+    border-color: #3e4152 !important;
+}
+
+.smartdashboard-dark .grade-table td {
+    border-color: #3e4152;
+    color: #e3e2e2;
+}
+
+.smartdashboard-dark .grade-table .grade-row td {
+    background-color: #2b2d3e;
+}
+
+.smartdashboard-dark .grade-table .grade-row:nth-child(even) td {
+    background-color: #242636;
+}
+
+.smartdashboard-dark .grade-table tr.category-row td {
+    background-color: #1e2233 !important;
+    color: #67e8f9 !important;
+    font-weight: bold;
+    border-color: #3e4152;
+}
+
+.smartdashboard-dark .grade-table tr.category-total-row td {
+    background-color: #1e293b !important;
+    color: #93c5fd !important;
+    font-weight: bold;
+    border-color: #3e4152;
+}
+
+.smartdashboard-dark .grade-table tr.course-total-row td {
+    background-color: #0f2e22 !important;
+    color: #6ee7b7 !important;
+    font-weight: bold;
+    border-color: #3e4152;
+}
+
+.smartdashboard-dark .grade-table .grade-value {
+    color: #34d399 !important;
+    background-color: rgba(52, 211, 153, 0.12) !important;
+    border-radius: 4px;
+    padding: 2px 8px;
+    display: inline-block;
+}
+
+.smartdashboard-dark .grade-table .grade-percentage {
+    color: #60a5fa !important;
+    background-color: rgba(96, 165, 250, 0.12) !important;
+    border-radius: 4px;
+    padding: 2px 8px;
+    display: inline-block;
+}
+
+.smartdashboard-dark .grade-table .grade-range {
+    color: #94a3b8;
+}
+
+.smartdashboard-dark .grade-table .item-description {
+    color: #94a3b8;
+    font-size: 0.85em;
+    margin-top: 4px;
+}
+
+.smartdashboard-dark .form-check-label {
+    color: #e3e2e2;
+}
+
 .smartdashboard-dark #reportTabs .nav-link {
     color: #e2e8f0;
     border-color: #475569 !important;
@@ -1369,6 +1568,134 @@ body.path-local-smartdashboard header#page-header {
 }
 .smartdashboard-dark #aiHistoryAccordion .btn-link:hover {
     color: #bfdbfe !important;
+}
+
+/* Grade Details — Light Mode Overrides */
+.smartdashboard-light .grade-filter-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb !important;
+    color: #1e293b;
+}
+
+.smartdashboard-light .grade-filter-card .filter-title {
+    color: #1e293b;
+}
+
+.smartdashboard-light .course-section .course-name {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: #ffffff;
+    border: 1px solid #3b82f6;
+    border-bottom: none;
+}
+
+.smartdashboard-light .activity-distribution-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb !important;
+    border-top: none !important;
+    color: #1e293b;
+}
+
+.smartdashboard-light .activity-distribution-title {
+    color: #1e293b;
+}
+
+.smartdashboard-light .chart-donut-hole {
+    background-color: #ffffff !important;
+}
+
+.smartdashboard-light .activity-legend {
+    color: #4b5563;
+}
+
+.smartdashboard-light .chart-bar-area {
+    border-bottom: 1px solid #e5e7eb;
+    border-left: 1px solid #e5e7eb;
+}
+
+.smartdashboard-light .chart-grid-line {
+    border-top: 1px solid #f1f5f9;
+}
+
+.smartdashboard-light .chart-y-axis,
+.smartdashboard-light .chart-x-axis {
+    color: #6b7280;
+}
+
+.smartdashboard-light .grade-table {
+    border: 1px solid #e5e7eb;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.smartdashboard-light .grade-table table {
+    background-color: #ffffff;
+    color: #1e293b;
+}
+
+.smartdashboard-light .grade-table thead th {
+    background-color: #f8fafc !important;
+    color: #374151 !important;
+    border-color: #e5e7eb !important;
+}
+
+.smartdashboard-light .grade-table td {
+    border-color: #e5e7eb;
+    color: #1e293b;
+}
+
+.smartdashboard-light .grade-table .grade-row td {
+    background-color: #ffffff;
+}
+
+.smartdashboard-light .grade-table .grade-row:nth-child(even) td {
+    background-color: #f9fafb;
+}
+
+.smartdashboard-light .grade-table tr.category-row td {
+    background-color: #f1f5f9 !important;
+    color: #0284c7 !important;
+    font-weight: bold;
+    border-color: #e2e8f0;
+}
+
+.smartdashboard-light .grade-table tr.category-total-row td {
+    background-color: #e2e8f0 !important;
+    color: #1e40af !important;
+    font-weight: bold;
+    border-color: #cbd5e1;
+}
+
+.smartdashboard-light .grade-table tr.course-total-row td {
+    background-color: #dcfce7 !important;
+    color: #166534 !important;
+    font-weight: bold;
+    border-color: #bbf7d0;
+}
+
+.smartdashboard-light .grade-table .grade-value {
+    color: #059669 !important;
+    background-color: rgba(5, 150, 105, 0.1) !important;
+    border-radius: 4px;
+    padding: 2px 8px;
+    display: inline-block;
+}
+
+.smartdashboard-light .grade-table .grade-percentage {
+    color: #2563eb !important;
+    background-color: rgba(37, 99, 235, 0.1) !important;
+    border-radius: 4px;
+    padding: 2px 8px;
+    display: inline-block;
+}
+
+.smartdashboard-light .grade-table .grade-range {
+    color: #6b7280;
+}
+
+.smartdashboard-light .grade-table .item-description {
+    color: #6b7280;
+    font-size: 0.85em;
+    margin-top: 4px;
 }
 
 /* ── Fallback Catalog Styles ── */

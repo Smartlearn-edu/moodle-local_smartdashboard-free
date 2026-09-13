@@ -7,23 +7,21 @@
         <h4 class="fw-bold mb-0 smart-text-adaptive">{{#str}} grade, local_smartdashboard {{/str}} Details</h4>
     </div>
     
-    <div class="card border-0 shadow-sm rounded-4 w-100 p-4">
-        <div class="inline-grades-wrapper">
-            {{{inlinegrades}}}
-        </div>
-        
-        <div class="text-center mt-5 pt-4" style="border-top: 1px solid var(--bs-border-color, #dee2e6);">
-            <form method="post" action="" style="display: inline-block;">
-                <input type="hidden" name="userid" value="{{userid}}">
-                <input type="hidden" name="action" value="export">
-                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-download me-2"></i>{{#str}} exporthtml, local_smartdashboard {{/str}}</button>
-                <div style="margin-top: 8px; text-align: center;">
-                    <input type="checkbox" id="includedesc" name="includedesc" value="1">
-                    <label for="includedesc" style="cursor: pointer; margin-bottom: 0;">
-                        {{#str}} includedescription, local_smartdashboard {{/str}}
-                    </label>
-                </div>
-            </form>
-        </div>
+    <div class="inline-grades-wrapper w-100">
+        {{{inlinegrades}}}
+    </div>
+    
+    <div class="card border-0 shadow-sm rounded-4 text-center mt-4 p-4">
+        <form method="post" action="" style="display: inline-block;">
+            <input type="hidden" name="userid" value="{{userid}}">
+            <input type="hidden" name="action" value="export">
+            <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-download me-2"></i>{{#str}} exporthtml, local_smartdashboard {{/str}}</button>
+            <div style="margin-top: 8px; text-align: center;">
+                <input type="checkbox" id="includedesc" name="includedesc" value="1">
+                <label for="includedesc" class="form-check-label ms-1" style="cursor: pointer;">
+                    {{#str}} includedescription, local_smartdashboard {{/str}}
+                </label>
+            </div>
+        </form>
     </div>
 </div>
