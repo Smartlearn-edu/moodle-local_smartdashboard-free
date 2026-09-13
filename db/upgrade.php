@@ -52,9 +52,6 @@ function xmldb_local_smartdashboard_upgrade($oldversion) {
         $table->add_key('primary', XMLDB_KEY_PRIMARY, ['id']);
         $table->add_key('fk_userid', XMLDB_KEY_FOREIGN, ['userid'], 'user', ['id']);
 
-        // Adding indexes to table local_smartdashboard_reports.
-        $table->add_index('idx_userid', XMLDB_INDEX_NOTUNIQUE, ['userid']);
-
         // Conditionally launch create table for local_smartdashboard_reports.
         if (!$dbman->table_exists($table)) {
             $dbman->create_table($table);
