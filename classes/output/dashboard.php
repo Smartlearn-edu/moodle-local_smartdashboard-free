@@ -1143,30 +1143,10 @@ class dashboard implements renderable, templatable
             }
 
             // --- Student Overview: Grade Details (from report_studentgrades) ---
-            $data->enableinstantanalysis = true; // Temporary default, later fetch from config if needed.
+            $data->enableinstantanalysis = false;
             $data->userid = $this->targetuserid;
-
-            // Check if AI grades table exists before querying to prevent error during first load before install
-            $dbman = $DB->get_manager();
-            $history = [];
-            if ($dbman->table_exists('local_smartdashboard_ai_grades')) {
-                $past_analyses = $DB->get_records('local_smartdashboard_ai_grades', ['userid' => $this->targetuserid], 'timecreated DESC');
-                if ($past_analyses) {
-                    $index = 0;
-                    foreach ($past_analyses as $pa) {
-                        $history[] = [
-                            'id' => $pa->id,
-                            'date' => userdate($pa->timecreated),
-                            'content' => $pa->report_html,
-                            'expanded' => ($index === 0) ? 'true' : 'false',
-                            'show' => ($index === 0) ? 'show' : '',
-                        ];
-                        $index++;
-                    }
-                }
-            }
-            $data->history = $history;
-            $data->hashistory = !empty($history);
+            $data->history = [];
+            $data->hashistory = false;
 
             require_once(__DIR__ . '/../grades_exporter.php');
             $exporter = new \local_smartdashboard\grades_exporter($this->targetuserid, false);
