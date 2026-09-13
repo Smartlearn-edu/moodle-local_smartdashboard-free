@@ -1,0 +1,502 @@
+{{!
+    @template local_smartdashboard/dashboard
+    
+    Dashboard template for the Smart Dashboard plugin.
+
+    Example context (json):
+    {
+        "dashboardtitle": "Smart Dashboard",
+        "showsidebar": true,
+        "isstudent": false,
+        "isprivileged": true,
+        "hasstats": true,
+        "totalenrollments": 150,
+        "uniquestudents": 120,
+        "hassubcategories": false,
+        "courses": [],
+        "showpayment": true,
+        "showmagic": true
+    }
+}}
+<div class="container-fluid dashboard-container smartdashboard-{{thememode}} p-0">
+    
+    {{> local_smartdashboard/sections/announcements }}
+
+    <!-- Custom Page Header (Replaces default Moodle header) -->
+    <div class="px-2 px-md-4 pt-2 pt-md-4 pb-2">
+        {{#hasmultipleroles}}
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="btn-group shadow-sm" role="group" aria-label="Role Switcher">
+                    {{#roleswitcher}}
+                    <a href="{{url}}" class="btn btn-sm btn-outline-primary {{#isactive}}active fw-bold{{/isactive}}">
+                        {{name}}
+                    </a>
+                    {{/roleswitcher}}
+                </div>
+            </div>
+        </div>
+        {{/hasmultipleroles}}
+
+        <div class="row align-items-center">
+            <!-- Left: Profile Info -->
+            <div class="col-12 col-md-4 col-lg-3 mb-3 mb-md-0 d-flex align-items-center">
+                <img src="{{studentprofileurl}}" alt="Profile Picture" class="rounded-circle me-3 border border-2 border-secondary" style="width: 56px; height: 56px; object-fit: cover;">
+                <div>
+                    <h4 class="fw-bold mb-0 smart-text-adaptive">Hi, {{studentfirstname}} 👋</h4>
+                    <div class="text-secondary small">Today: {{studentcurrentdate}}</div>
+                </div>
+            </div>
+
+            <!-- Middle: Badges / Mentee Search -->
+            <div class="col-12 col-md-3 col-lg-4 mb-3 mb-md-0 d-flex flex-column justify-content-center">
+                {{#isparent}}
+                <div class="d-flex flex-column gap-2">
+                    {{#hasmenteeprograms}}
+                    <div class="dropdown">
+                        <button class="btn btn-sm w-100 d-flex align-items-center justify-content-between shadow-sm rounded border border-secondary border-opacity-25 bg-transparent smart-text-adaptive px-2 py-1 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="text-truncate d-flex align-items-center">
+                                <i class="fa fa-graduation-cap me-2 opacity-75"></i>
+                                <span>{{#programselected}}{{selectedprogramname}}{{/programselected}}{{^programselected}}All Programs{{/programselected}}</span>
+                            </span>
+                            <i class="fa fa-chevron-down small opacity-50 ms-2 flex-shrink-0"></i>
+                        </button>
+                        <ul class="dropdown-menu shadow rounded-3 border-secondary border-opacity-25 w-100">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center justify-content-between py-2 {{^programselected}}active fw-bold{{/programselected}}" href="{{allprogramsurl}}">
+                                    <span>All Programs</span>
+                                    {{^programselected}}<i class="fa fa-check small text-primary ms-2"></i>{{/programselected}}
+                                </a>
+                            </li>
+                            {{#menteeprograms}}
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center justify-content-between py-2 {{#selected}}active fw-bold{{/selected}}" href="{{url}}">
+                                    <span class="text-truncate">{{fullname}}</span>
+                                    {{#selected}}<i class="fa fa-check small text-primary ms-2"></i>{{/selected}}
+                                </a>
+                            </li>
+                            {{/menteeprograms}}
+                        </ul>
+                    </div>
+                    {{/hasmenteeprograms}}
+
+                    {{#hasmentees}}
+                    <div class="dropdown mt-2">
+                        <button class="btn btn-sm w-100 d-flex align-items-center justify-content-between shadow-sm rounded border border-secondary border-opacity-25 bg-transparent smart-text-adaptive px-2 py-1 text-start" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="text-truncate d-flex align-items-center">
+                                <i class="fa fa-search me-2 opacity-75"></i>
+                                <span>{{#has_target_mentee}}{{selectedmenteename}}{{/has_target_mentee}}{{^has_target_mentee}}All Mentees (Overview){{/has_target_mentee}}</span>
+                            </span>
+                            <i class="fa fa-chevron-down small opacity-50 ms-2 flex-shrink-0"></i>
+                        </button>
+                        <ul class="dropdown-menu shadow rounded-3 border-secondary border-opacity-25 w-100">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center justify-content-between py-2 {{^has_target_mentee}}active fw-bold{{/has_target_mentee}}" href="{{allmenteesurl}}">
+                                    <span>All Mentees (Overview)</span>
+                                    {{^has_target_mentee}}<i class="fa fa-check small text-primary ms-2"></i>{{/has_target_mentee}}
+                                </a>
+                            </li>
+                            {{#mentees}}
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center justify-content-between py-2 {{#selected}}active fw-bold{{/selected}}" href="{{url}}">
+                                    <span class="text-truncate">{{fullname}}</span>
+                                    {{#selected}}<i class="fa fa-check small text-primary ms-2"></i>{{/selected}}
+                                </a>
+                            </li>
+                            {{/mentees}}
+                        </ul>
+                    </div>
+                    {{/hasmentees}}
+                </div>
+                {{/isparent}}
+
+                {{^isparent}}
+                {{#hasstudentbadges}}
+                <div class="d-flex gap-2 align-items-center flex-wrap">
+                    {{#studentbadges}}
+                    <img src="{{imageurl}}" alt="{{name}}" title="{{name}}" data-bs-toggle="tooltip" style="width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15)); transition: transform 0.2s;" class="student-header-badge">
+                    {{/studentbadges}}
+                </div>
+                {{/hasstudentbadges}}
+                {{/isparent}}
+            </div>
+            
+            <!-- Right: Metric Cards -->
+            <div class="col-12 col-md-5 col-lg-5">
+                <div class="row g-2 justify-content-md-end">
+                    
+                    <!-- Grade Avg -->
+                    <div class="col-4 col-md-auto">
+                    <div class="card rounded-4 student-info-card h-100">
+                        <div class="card-body p-2 px-3 text-center text-md-start">
+                            <div class="text-secondary small">Grade Avg:</div>
+                            <div class="fs-5 fw-bold smart-text-adaptive">
+                                {{#hasoverall}}{{studentoverall}}% <span class="text-success ms-1" style="font-size: 0.8em;">↑</span>{{/hasoverall}}
+                                {{^hasoverall}}<span class="text-secondary opacity-75" title="No graded courses yet" data-bs-toggle="tooltip">-</span>{{/hasoverall}}
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Courses -->
+                    <div class="col-4 col-md-auto">
+                    <div class="card rounded-4 student-info-card h-100">
+                        <div class="card-body p-2 px-3 text-center text-md-start">
+                            <div class="text-secondary small">Courses:</div>
+                            <div class="fs-5 fw-bold smart-text-adaptive">{{studentkpicourses}} <span class="fs-6 fw-normal">Active</span></div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Streak -->
+                    <div class="col-4 col-md-auto">
+                    <div class="card rounded-4 student-info-card h-100">
+                        <div class="card-body p-2 px-3 text-center text-md-start">
+                            <div class="text-secondary small">Streak:</div>
+                            <div class="fs-5 fw-bold smart-text-adaptive">{{studentstreak}} days 🔥</div>
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-0">
+        <!-- Sidebar -->
+{{> local_smartdashboard/sections/sidebar }}
+
+        <!-- Main Content -->
+        <div id="main-content-col" class="col-12 {{#showsidebar}}col-md-9{{/showsidebar}} p-2 p-md-4 min-vh-100" style="transition: all 0.3s ease;">
+            <!-- Header -->
+            <div class="row align-items-center">
+                <div class="col-12">
+                    {{#isstudent}}
+
+
+                     <!-- Configurable Icons Grid -->
+                     {{#hasstudenticons}}
+                     <div class="row g-2 g-md-3 mb-5">
+                         {{#studenticons}}
+                         <div class="col-6 col-md-4 col-lg-2">
+                             <a href="{{url}}" class="card text-decoration-none border-0 shadow-sm student-icon-card animate__animated animate__fadeInUp">
+                                 <div class="card-body text-center p-2 d-flex flex-column justify-content-center">
+                                     <div class="icon-wrapper student-icon-wrapper mb-1 text-primary bg-light rounded-circle mx-auto d-flex align-items-center justify-content-center">
+                                         <i class="fa {{iconclass}}"></i>
+                                     </div>
+                                     <h6 class="fw-bold text-dark mb-0 small text-truncate">{{name}}</h6>
+                                 </div>
+                             </a>
+                         </div>
+                         {{/studenticons}}
+                     </div>
+                     {{/hasstudenticons}}
+                    {{/isstudent}}
+
+                    {{^isstudent}}
+
+                    
+                    {{#isparent}}
+                    {{#showparentoverview}}
+                    
+                    {{#showprogramanalytics}}
+                    <div class="program-analytics-banner mt-4 mb-4 animate__animated animate__fadeIn">
+                        <div class="card border-0 shadow-sm rounded-4 w-100 bg-primary bg-opacity-10">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                                        <i class="fa fa-graduation-cap fs-4"></i>
+                                    </div>
+                                    <h4 class="fw-bold text-dark mb-0">{{program_name}} <span class="fs-6 text-muted fw-normal ms-2">Analytics Overview</span></h4>
+                                </div>
+                                <div class="row g-3">
+                                    <div class="col-12 col-md-4">
+                                        <div class="bg-white p-3 rounded-3 shadow-sm text-center h-100 border-start border-primary border-4">
+                                            <div class="text-muted small text-uppercase fw-bold mb-1">Mentees Enrolled</div>
+                                            <div class="display-6 fw-bold text-dark">{{program_mentee_count}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="bg-white p-3 rounded-3 shadow-sm text-center h-100 border-start border-success border-4">
+                                            <div class="text-muted small text-uppercase fw-bold mb-1">Program Courses</div>
+                                            <div class="display-6 fw-bold text-dark">{{program_active_courses}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <div class="bg-white p-3 rounded-3 shadow-sm text-center h-100 border-start border-warning border-4">
+                                            <div class="text-muted small text-uppercase fw-bold mb-1">Average Grade</div>
+                                            {{#has_program_average}}
+                                            <div class="display-6 fw-bold text-dark">{{program_average}}%</div>
+                                            {{/has_program_average}}
+                                            {{^has_program_average}}
+                                            <div class="fs-5 fw-bold text-muted mt-2">N/A</div>
+                                            {{/has_program_average}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Program Performance Chart -->
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div class="bg-white p-4 rounded-3 shadow-sm border border-light">
+                                            <h6 class="fw-bold text-center mb-4 text-muted">Mentee Performance Comparison</h6>
+                                            <div style="overflow-x: auto; overflow-y: hidden; width: 100%;">
+                                                <div id="program-performance-chart-container" style="position: relative; height: 300px; min-width: 100%;">
+                                                    <canvas id="program-performance-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/showprogramanalytics}}
+
+                    {{#hasoverviewmentees}}
+                    <div class="mentees-container mt-4 mb-4 animate__animated animate__fadeInUp">
+                        <h5 class="fw-bold text-dark mb-3">{{#str}}parent_mentees_title, local_smartdashboard{{/str}}</h5>
+                        <div class="d-flex flex-column gap-3">
+                            {{#overviewmentees}}
+                            <div class="card border-0 shadow-sm rounded-3 w-100">
+                                <div class="card-body p-4">
+                                    <div class="row align-items-center">
+                                        <!-- Mentee Profile Section -->
+                                        <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center mb-3 mb-md-0" style="border-right: 1px solid #eee;">
+                                            <img src="{{profileurl}}" alt="{{fullname}}" class="rounded-circle me-3 border shadow-sm" style="width: 72px; height: 72px; object-fit: cover;">
+                                            <div>
+                                                <h5 class="mb-1 fw-bold text-dark">{{fullname}}</h5>
+                                                <a href="{{overviewurl}}" class="btn btn-sm btn-light text-primary fw-bold mt-2 shadow-sm rounded-pill px-3"><i class="fa fa-line-chart me-2"></i>{{#str}}section_progress, local_smartdashboard{{/str}}</a>
+                                            </div>
+                                        </div>
+                                        <!-- Mentee Analytics Data -->
+                                        <div class="col-12 col-md-8 col-lg-9 py-2 py-md-0">
+                                            <div class="row g-3 h-100">
+                                                <!-- Overall Performance -->
+                                                <div class="col-12 col-md-4">
+                                                    <div class="p-3 bg-light rounded-3 h-100 border-0 shadow-sm d-flex flex-column align-items-center justify-content-center text-center">
+                                                        <h6 class="text-muted small text-uppercase mb-2 fw-bold">{{#str}}parent_overall_performance, local_smartdashboard{{/str}}</h6>
+                                                        {{#has_average}}
+                                                        <div class="display-6 fw-bold text-primary mb-1">{{average}}%</div>
+                                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3">{{#str}}parent_average_grade, local_smartdashboard{{/str}}</span>
+                                                        {{/has_average}}
+                                                        {{^has_average}}
+                                                        <span class="text-muted small"><i class="fa fa-info-circle me-1"></i>{{#str}}parent_no_data, local_smartdashboard{{/str}}</span>
+                                                        {{/has_average}}
+                                                    </div>
+                                                </div>
+
+                                                <!-- Upcoming Deadlines -->
+                                                <div class="col-12 col-md-4">
+                                                    <div class="p-3 bg-light rounded-3 h-100 border-0 shadow-sm d-flex flex-column">
+                                                        <h6 class="text-muted small text-uppercase mb-3 fw-bold"><i class="fa fa-calendar-o me-2 text-danger"></i>{{#str}}parent_upcoming_deadlines, local_smartdashboard{{/str}}</h6>
+                                                        <div class="d-flex flex-column flex-grow-1 justify-content-center">
+                                                            {{#has_deadlines}}
+                                                            <ul class="list-unstyled mb-0 w-100">
+                                                                {{#deadlines}}
+                                                                <li class="mb-2 pb-2 border-bottom border-secondary border-opacity-10 last-child-no-border">
+                                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                                        <div class="text-truncate fw-bold text-dark" style="font-size: 0.85rem; max-width: 65%;">{{name}}</div>
+                                                                        <span class="badge bg-danger rounded-pill fw-normal" style="font-size: 0.7rem;">{{formattedtime}}</span>
+                                                                    </div>
+                                                                    <div class="text-muted text-truncate" style="font-size: 0.75rem;"><i class="fa fa-graduation-cap me-1"></i>{{coursename}}</div>
+                                                                </li>
+                                                                {{/deadlines}}
+                                                            </ul>
+                                                            {{/has_deadlines}}
+                                                            {{^has_deadlines}}
+                                                            <div class="text-center text-muted small my-auto"><i class="fa fa-check-circle-o me-1"></i>{{#str}}caught_up, local_smartdashboard{{/str}}</div>
+                                                            {{/has_deadlines}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Recent Results -->
+                                                <div class="col-12 col-md-4">
+                                                    <div class="p-3 bg-light rounded-3 h-100 border-0 shadow-sm d-flex flex-column">
+                                                        <h6 class="text-muted small text-uppercase mb-3 fw-bold"><i class="fa fa-check-square-o me-2 text-primary"></i>{{#str}}parent_recent_results, local_smartdashboard{{/str}}</h6>
+                                                        <div class="d-flex flex-column flex-grow-1 justify-content-center">
+                                                            {{#has_results}}
+                                                            <ul class="list-unstyled mb-0 w-100">
+                                                                {{#results}}
+                                                                <li class="mb-2 pb-2 border-bottom border-secondary border-opacity-10 last-child-no-border">
+                                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                                        <div class="text-truncate fw-bold text-dark" style="font-size: 0.85rem; max-width: 70%;">{{name}}</div>
+                                                                        <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill fw-bold" style="font-size: 0.75rem;">{{grade}}</span>
+                                                                    </div>
+                                                                    <div class="text-muted text-truncate" style="font-size: 0.75rem;"><i class="fa fa-graduation-cap me-1"></i>{{coursename}}</div>
+                                                                </li>
+                                                                {{/results}}
+                                                            </ul>
+                                                            {{/has_results}}
+                                                            {{^has_results}}
+                                                            <div class="text-center text-muted small my-auto"><i class="fa fa-info-circle me-1"></i>{{#str}}parent_no_data, local_smartdashboard{{/str}}</div>
+                                                            {{/has_results}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/overviewmentees}}
+                        </div>
+                    </div>
+                    {{/hasoverviewmentees}}
+                    {{/showparentoverview}}
+                    {{/isparent}}
+                    {{/isstudent}}
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div id="content-container">
+                
+                {{> local_smartdashboard/sections/daily_plan }}
+                {{> local_smartdashboard/sections/grade_details }}
+                {{> local_smartdashboard/sections/overview }}
+                {{> local_smartdashboard/sections/progress }}
+                {{> local_smartdashboard/sections/grading }}
+                {{> local_smartdashboard/sections/analytics }}
+                {{> local_smartdashboard/sections/payments }}
+                {{> local_smartdashboard/sections/magic_reports }}
+                {{> local_smartdashboard/sections/settings }}
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#js}}
+require(['local_smartdashboard/main', 'jquery', 'core/ajax', 'core/notification'], function(Main, $, ajax, notification) {
+    Main.init();
+
+    {{#hasannouncements}}
+    $(document).ready(function() {
+        try {
+            // First check if jQuery modal is available
+            if (typeof $.fn.modal !== 'undefined') {
+                $('#announcementsModal').modal('show');
+            } else if (typeof bootstrap !== 'undefined') {
+                // Fallback for BS5 vanilla JS if jQuery modal is missing
+                var announcementModal = new bootstrap.Modal(document.getElementById('announcementsModal'));
+                announcementModal.show();
+            } else {
+                // Try Moodle's AMD loader as last resort
+                require(['theme_boost/bootstrap/modal'], function() {
+                    $('#announcementsModal').modal('show');
+                });
+            }
+        } catch(e) {
+            console.error("Smart{{#str}}dashboard, local_smartdashboard{{/str}} Error showing modal: " + e);
+        }
+    });
+
+    // Handle "Don't show again" clicks
+    $('.btn-dismiss-announcement').on('click', function() {
+        var btn = $(this);
+        var announcementId = btn.data('id');
+        var card = $('.announcement-item[data-announcement-id="' + announcementId + '"]');
+
+        // Disable button to prevent double-clicks.
+        btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin me-1"></i> {{#str}}saving, local_smartdashboard{{/str}}');
+
+        // Call our custom web service.
+        var request = {
+            methodname: 'local_smartdashboard_dismiss_announcement',
+            args: {
+                announcementid: announcementId
+            }
+        };
+
+        ajax.call([request])[0].done(function() {
+            // Success: remove the item from modal
+            card.slideUp(300, function() {
+                $(this).remove();
+                if ($('.announcement-item').length === 0) {
+                    if (typeof $.fn.modal !== 'undefined') {
+                        $('#announcementsModal').modal('hide');
+                    } else {
+                        var modal = bootstrap.Modal.getInstance(document.getElementById('announcementsModal'));
+                        if (modal) {
+                            modal.hide();
+                        }
+                    }
+                }
+            });
+        }).fail(function(ex) {
+            btn.prop('disabled', false).html('<i class="fa fa-eye-slash me-1"></i> Don\'t show this again');
+            notification.exception(ex);
+        });
+    });
+    {{/hasannouncements}}
+
+    // Initialize Program Performance Chart
+    {{#showprogramanalytics}}
+    require(['core/chartjs'], function(ChartJS) {
+        var isLight = document.querySelector('.smartdashboard-light') !== null;
+        var chartTextColor = isLight ? '#374151' : '#e0e0e0';
+        var chartGridColor = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.1)';
+        var ctx = document.getElementById('program-performance-chart');
+        if (ctx) {
+            var labels = {{{program_chart_labels}}};
+            var data = {{{program_chart_grades}}};
+            
+            // Ensure enough width per student to prevent overlapping or tilted labels
+            var minRequiredWidth = labels.length * 100; // 100px per student
+            document.getElementById('program-performance-chart-container').style.width = 'max(100%, ' + minRequiredWidth + 'px)';
+            
+            new ChartJS(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Average Grade (%)',
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barThickness: 40,
+                        maxBarThickness: 50
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: chartTextColor,
+                                maxRotation: 0,
+                                minRotation: 0,
+                                autoSkip: false
+                            },
+                            grid: {
+                                color: chartGridColor
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                color: chartTextColor,
+                                callback: function(value) { return value + '%' }
+                            },
+                            grid: {
+                                color: chartGridColor
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    });
+    {{/showprogramanalytics}}
+});
+{{/js}}
+

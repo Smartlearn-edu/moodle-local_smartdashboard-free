@@ -1,0 +1,97 @@
+{{#sitecatalog}}
+<div class="col-md-6 col-lg-4 mb-4 sc-catalog-col" data-category="{{categoryid}}" data-categorypath="{{categorypath}}" data-title="{{name}}" data-teacherids="{{teacherids}}" data-programids="{{programids}}">
+    <div class="sc-course-card-wrapper position-relative h-100">
+        <div class="card h-100 sc-course-card border-0 rounded-3 overflow-hidden position-relative d-flex flex-column shadow-sm">
+            <a href="{{config.wwwroot}}/enrol/index.php?id={{id}}" class="text-decoration-none text-dark d-block sc-card-img-container">
+                <img src="{{imageurl}}" alt="{{name}}" class="sc-card-img {{#isfallback}}sc-card-fallback-img p-5 opacity-50{{/isfallback}}">
+            </a>
+            
+            <div class="p-3">
+                <a href="{{config.wwwroot}}/enrol/index.php?id={{id}}" class="text-decoration-none text-dark">
+                    <h5 class="card-title fw-bold mb-3 sc-title-clamp">{{name}}</h5>
+                </a>
+                
+                <a href="{{config.wwwroot}}/enrol/index.php?id={{id}}" class="btn btn-outline-primary rounded-pill sc-view-btn mb-1 w-100">View Course</a>
+            </div>
+            
+            <div class="px-3 pb-2">
+                <div class="card-text text-muted sc-desc-container">
+                    {{{description}}}
+                </div>
+            </div>
+            
+            <div class="px-3 pb-3 mt-auto">
+                <div class="sc-teachers-container">
+                    {{#teachers}}
+                    <a href="{{config.wwwroot}}/user/profile.php?id={{id}}" class="sc-teacher-link d-flex align-items-center text-decoration-none pt-2 mt-2 border-top">
+                        <img src="{{imageurl}}" class="rounded-circle me-2 flex-shrink-0" width="32" height="32" alt="{{name}}">
+                        <div class="text-truncate" style="min-width: 0;">
+                            <span class="d-block text-dark fw-bold text-truncate" style="font-size: 0.85rem; line-height: 1.2;">{{name}}</span>
+                            <span class="d-block text-muted" style="font-size: 0.75rem;">Teacher</span>
+                        </div>
+                    </a>
+                    {{/teachers}}
+                </div>
+            </div>
+        </div>
+
+        {{! ── Hover popup with quick course details ── }}
+        <div class="sc-hover-popup rounded-3 d-none d-lg-block">
+            <div class="sc-popup-header border-bottom pb-2 mb-2">
+                <h6 class="sc-popup-title fw-bold mb-1">{{name}}</h6>
+                {{#categoryname}}
+                <span class="sc-popup-badge badge">{{categoryname}}</span>
+                {{/categoryname}}
+            </div>
+
+            <div class="sc-popup-meta border-bottom pb-2 mb-2">
+                {{#lastupdated}}
+                <div class="sc-popup-meta-item small text-muted mb-1">
+                    <i class="fa fa-calendar-o me-2 text-primary"></i>
+                    <span>{{lastupdated}}</span>
+                </div>
+                {{/lastupdated}}
+                {{#enrolledcount}}
+                <div class="sc-popup-meta-item small text-muted mb-1">
+                    <i class="fa fa-users me-2 text-primary"></i>
+                    <span>{{enrolledcount}} enrolled</span>
+                </div>
+                {{/enrolledcount}}
+                {{#activitycount}}
+                <div class="sc-popup-meta-item small text-muted mb-1">
+                    <i class="fa fa-puzzle-piece me-2 text-primary"></i>
+                    <span>{{activitycount}} activities</span>
+                </div>
+                {{/activitycount}}
+            </div>
+
+            {{#hasskills}}
+            <div class="sc-popup-skills">
+                <h6 class="sc-popup-skills-title fw-bold mb-2 small text-dark">
+                    <i class="fa fa-lightbulb-o me-1 text-warning"></i> What you will learn
+                </h6>
+                <ul class="sc-popup-skills-list list-unstyled mb-0 small text-muted">
+                    {{#skillitems}}
+                    <li class="sc-popup-skill-item d-flex align-items-start mb-1">
+                        <i class="fa fa-check-circle text-success me-2 mt-1"></i>
+                        <span>{{text}}</span>
+                    </li>
+                    {{/skillitems}}
+                </ul>
+            </div>
+            {{/hasskills}}
+            {{^hasskills}}
+            <div class="sc-popup-desc">
+                <p class="text-muted mb-0 sc-popup-desc-text small">{{{popupcontent}}}</p>
+            </div>
+            {{/hasskills}}
+
+            <div class="sc-popup-action text-center mt-3">
+                <a href="{{config.wwwroot}}/enrol/index.php?id={{id}}" class="btn btn-primary btn-sm rounded-pill sc-popup-btn w-100">
+                    <i class="fa fa-eye me-1"></i> View Course
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/sitecatalog}}

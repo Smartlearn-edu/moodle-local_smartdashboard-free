@@ -1,0 +1,48 @@
+{{=<% %>=}}
+<ion-content padding>
+    <%#isstudent%>
+    <ion-card color="primary">
+        <ion-card-header>
+            <ion-card-title><% welcomemessage %></ion-card-title>
+            <ion-card-subtitle>{{ 'plugin.local_smartdashboard.student_welcome_sub' | translate }}</ion-card-subtitle>
+        </ion-card-header>
+    </ion-card>
+
+    <%> local_smartdashboard/mobileapp/student_daily_plan %>
+    <%> local_smartdashboard/mobileapp/student_progress %>
+    <%/isstudent%>
+
+    <%#isteacher%>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>{{ 'plugin.local_smartdashboard.welcome_back' | translate }}</ion-card-title>
+            <ion-card-subtitle>{{ 'plugin.local_smartdashboard.teacher_welcome_sub' | translate }}</ion-card-subtitle>
+        </ion-card-header>
+    </ion-card>
+
+    <%> local_smartdashboard/mobileapp/teacher_risk %>
+    <%> local_smartdashboard/mobileapp/teacher_grading %>
+    <%/isteacher%>
+
+    <%#isprivileged%>
+    <ion-card color="dark">
+        <ion-card-header>
+            <ion-card-title>{{ 'plugin.local_smartdashboard.welcome_back' | translate }}</ion-card-title>
+            <ion-card-subtitle>{{ 'plugin.local_smartdashboard.teacher_welcome_sub' | translate }}</ion-card-subtitle>
+        </ion-card-header>
+    </ion-card>
+
+    <%> local_smartdashboard/mobileapp/teacher_risk %>
+    <%> local_smartdashboard/mobileapp/teacher_grading %>
+    <%/isprivileged%>
+
+    <ion-button expand="block" fill="outline" color="primary" class="ion-margin" core-link href="<% dashboardurl %>" auto-login="yes">
+        <ion-icon name="desktop-outline" slot="start"></ion-icon>
+        {{ 'plugin.local_smartdashboard.pluginname' | translate }}
+    </ion-button>
+</ion-content>
+
+<style>
+    .sd-mobile-big-icon { font-size: 48px; display: block; margin: 0 auto 12px auto; }
+    .sd-mobile-muted { color: gray; }
+</style>

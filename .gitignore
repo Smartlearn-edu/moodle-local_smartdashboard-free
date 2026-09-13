@@ -1,0 +1,12 @@
+/vendor/
+/node_modules/
+composer.lock
+.directory
+*.tar.gz
+*.zip
+scratch_*.php
+scratch_*.js
+test_*.php
+check_db.php
+purge.php
+send.json

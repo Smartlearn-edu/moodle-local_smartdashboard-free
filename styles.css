@@ -1,0 +1,1976 @@
+/* ===========================================================
+   Smart Dashboard — Theme Mode Styles
+   Scoped under .smartdashboard-dark / .smartdashboard-light
+   =========================================================== */
+
+/* Force full width for the dashboard container specifically */
+body.path-local-smartdashboard .container-fluid,
+body.path-local-smartdashboard .container {
+    max-width: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Hide Moodle's native page header on this specific dashboard to use our custom one */
+body.path-local-smartdashboard #page-header,
+body.path-local-smartdashboard header#page-header {
+    display: none !important;
+}
+
+/* Ensure our dashboard container takes available space */
+.path-local-smartdashboard .dashboard-container {
+    min-height: 100vh;
+    width: 100%;
+}
+
+
+/* Sidebar — shared layout */
+.smartdashboard-sidebar {
+    height: 100%;
+    min-height: 80vh;
+    border-radius: 12px;
+}
+
+.smartdashboard-sidebar .nav-link {
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.smartdashboard-sidebar .nav-link.active {
+    color: #fff;
+    background-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.smartdashboard-sidebar .nav-link i {
+    width: 24px;
+    text-align: center;
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding-top: 10px;
+    }
+}
+
+/* Collapsible Sidebar Styles */
+@media (min-width: 768px) {
+    .dashboard-container.sidebar-collapsed #sidebar-col {
+        width: 80px;
+        flex: 0 0 80px;
+        max-width: 80px;
+    }
+
+    .dashboard-container.sidebar-collapsed #main-content-col {
+        width: calc(100% - 80px);
+        flex: 0 0 calc(100% - 80px);
+        max-width: calc(100% - 80px);
+    }
+
+    .dashboard-container.sidebar-collapsed .dashboard-heading-text,
+    .dashboard-container.sidebar-collapsed .nav-text,
+    .dashboard-container.sidebar-collapsed .nav-chevron {
+        display: none;
+        opacity: 0;
+        width: 0;
+    }
+
+    .dashboard-container.sidebar-collapsed .smartdashboard-sidebar .nav-link {
+        justify-content: center;
+        padding: 15px 0;
+    }
+
+    .dashboard-container.sidebar-collapsed .smartdashboard-sidebar .nav-link i {
+        margin-right: 0;
+        font-size: 1.4rem;
+    }
+
+    .dashboard-container.sidebar-collapsed .smartdashboard-sidebar .nav-column {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .dashboard-container.sidebar-collapsed #sidebar-toggle-btn {
+        margin: 0 auto;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+
+    .dashboard-container.sidebar-collapsed .collapse.show {
+        display: none;
+    }
+}
+
+/* Student Icon Cards — shared layout */
+.student-icon-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    aspect-ratio: 5 / 4;
+}
+
+.student-icon-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.student-icon-wrapper {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+}
+
+@media (min-width: 768px) {
+    .student-icon-wrapper {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+    }
+}
+
+.smartdashboard-dark .smart-text-adaptive {
+    color: #ffffff !important;
+}
+
+.smartdashboard-light .smart-text-adaptive {
+    color: #1e293b !important;
+}
+
+/* ===========================================================
+   Student Info Card - Neon Theme Styling
+   =========================================================== */
+.smartdashboard-dark {
+    background-color: #0f172a !important; /* Force the dashboard container to be dark */
+    color: #e2e8f0;
+    width: 100%;
+}
+
+/* Force Moodle wrappers to match dark mode to avoid white gaps */
+body:has(.smartdashboard-dark),
+body:has(.smartdashboard-dark) #page-wrapper,
+body:has(.smartdashboard-dark) #page,
+body:has(.smartdashboard-dark) #region-main,
+body:has(.smartdashboard-dark) [data-region="blocks-column"],
+body:has(.smartdashboard-dark) .drawer {
+    background-color: #0f172a !important;
+}
+
+/* Ensure the card doesn't stretch beyond the screen */
+.smartdashboard-dark .card {
+    max-width: 100%;
+    min-width: 0;
+}
+
+/* Force table-responsive to scroll its contents */
+.smartdashboard-dark .table-responsive {
+    width: 100% !important;
+    max-width: 100%;
+    overflow-x: auto !important;
+    display: block !important;
+}
+
+/* Prevent table text from squishing so it actually triggers the scroll */
+.smartdashboard-dark .table-responsive table th,
+.smartdashboard-dark .table-responsive table td {
+    white-space: nowrap !important;
+}
+
+
+
+.smartdashboard-dark .student-info-card {
+    background-color: #1a2233 !important; /* Rich dark blue/gray */
+    border: 1px solid rgba(13, 110, 253, 0.4) !important;
+    box-shadow: 0 0 15px rgba(13, 110, 253, 0.15), inset 0 0 5px rgba(13, 110, 253, 0.05) !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.smartdashboard-dark .student-info-card:hover {
+    border-color: rgba(13, 110, 253, 0.7) !important;
+    box-shadow: 0 0 20px rgba(13, 110, 253, 0.25), inset 0 0 10px rgba(13, 110, 253, 0.1) !important;
+}
+
+.smartdashboard-light .student-info-card {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(13, 110, 253, 0.2) !important;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.08) !important;
+}
+
+
+/* ===========================================================
+   Student Overview — shared layout
+   =========================================================== */
+
+/* Course item rows */
+.student-course-item {
+    transition: background-color 0.2s ease, transform 0.15s ease;
+    border: 1px solid transparent;
+}
+
+.student-course-item:hover {
+    transform: translateX(4px);
+}
+
+.student-course-thumb {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+}
+
+.student-course-arrow {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.student-course-item:hover .student-course-arrow {
+    opacity: 1;
+}
+
+/* Progress bar */
+.student-progress-bar {
+    height: 8px;
+    border-radius: 4px;
+}
+
+.student-progress-bar .progress-bar {
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.student-progress-label {
+    min-width: 36px;
+    text-align: right;
+}
+
+/* Deadline items */
+.student-deadline-dot {
+    width: 10px;
+    height: 10px;
+    min-width: 10px;
+}
+
+.student-deadline-item {
+    transition: background-color 0.2s ease;
+}
+
+/* Grade cards */
+.student-grade-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-grade-card:hover {
+    transform: translateY(-3px);
+}
+
+.student-grade-percent {
+    font-size: 1.6rem;
+    line-height: 1.2;
+}
+
+.student-grade-course {
+    font-size: 0.8rem;
+}
+
+/* Overall badge */
+.student-overall-badge {
+    display: flex;
+    align-items: center;
+}
+
+/* Feedback items */
+.student-feedback-item {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-feedback-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.student-feedback-text {
+    font-style: italic;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Badge Items */
+.student-badge-item {
+    width: 120px;
+    transition: transform 0.2s ease;
+}
+
+.student-badge-item:hover {
+    transform: scale(1.05);
+}
+
+.student-badge-img-wrapper {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.student-badge-img-wrapper img {
+    max-height: 100%;
+    max-width: 100%;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+/* Custom Header Badge Hover */
+.student-header-badge:hover {
+    transform: scale(1.15);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .student-grade-percent {
+        font-size: 1.3rem;
+    }
+
+    .student-course-thumb {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+}
+
+
+/* ===========================================================
+   DARK MODE — .smartdashboard-dark
+   =========================================================== */
+
+
+body.path-local-smartdashboard:has(.smartdashboard-dark) {
+    background-color: #2b2d3e;
+    color: #e3e2e2;
+}
+
+/* Drawers & Secondary Nav */
+body.path-local-smartdashboard:has(.smartdashboard-dark) .drawer-content {
+    background-color: #2b2d3e;
+    padding: 0;
+}
+
+body.path-local-smartdashboard:has(.smartdashboard-dark) .secondary-navigation {
+    background-color: #1a1d21;
+    border-bottom: 1px solid #3e4152;
+    max-width: 100%;
+}
+
+/* Container */
+.smartdashboard-dark {
+    background-color: transparent;
+    color: #e3e2e2;
+}
+
+.smartdashboard-dark .smartdashboard-page-title {
+    color: #e3e2e2 !important;
+}
+
+/* Headings */
+.smartdashboard-dark h1,
+.smartdashboard-dark h2,
+.smartdashboard-dark h3,
+.smartdashboard-dark h4,
+.smartdashboard-dark h5,
+.smartdashboard-dark h6,
+.smartdashboard-dark .dashboard-title {
+    color: #fff;
+    font-weight: 500;
+}
+
+.smartdashboard-dark .text-muted,
+.smartdashboard-dark .text-secondary {
+    color: #94d2bd !important;
+}
+
+.smartdashboard-dark .form-label {
+    color: #a8dadc;
+    font-weight: 600;
+}
+
+/* Sidebar — Dark */
+.smartdashboard-dark #sidebar-col {
+    background-color: #1a1d21;
+}
+
+.smartdashboard-dark .smartdashboard-sidebar {
+    background-color: #1a1d21;
+    border-right: 1px solid #3e4152;
+}
+
+.smartdashboard-dark .smartdashboard-sidebar .nav-link {
+    color: #aeb0b5;
+}
+
+.smartdashboard-dark .smartdashboard-sidebar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Cards — Dark */
+.smartdashboard-dark .card {
+    background-color: #2b2d3e;
+    border: 1px solid #3e4152;
+    border-radius: 12px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+    margin-bottom: 20px;
+}
+
+.smartdashboard-dark .dashboard-section .card {
+    background-color: #323548;
+    border: none;
+}
+
+.smartdashboard-dark .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #3e4152;
+    color: #fff;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+.smartdashboard-dark .card-body {
+    padding: 20px;
+}
+
+.smartdashboard-dark .course-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #323548;
+}
+
+.smartdashboard-dark .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.smartdashboard-dark .card-img-top-wrapper {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background-color: #252836;
+}
+
+/* Links — Dark */
+.smartdashboard-dark a {
+    color: #60a5fa;
+}
+
+.smartdashboard-dark a:hover {
+    color: #93c5fd;
+    text-decoration: none;
+}
+
+.smartdashboard-dark .text-dark {
+    color: #e3e2e2 !important;
+}
+
+/* Forms — Dark */
+.smartdashboard-dark .form-select,
+.smartdashboard-dark .form-control {
+    background-color: #1f222e;
+    border: 1px solid #3e4152;
+    color: #e3e2e2;
+    border-radius: 8px;
+}
+
+.smartdashboard-dark .form-select:focus,
+.smartdashboard-dark .form-control:focus {
+    background-color: #1f222e;
+    color: #fff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+
+/* Tables — Dark */
+.smartdashboard-dark .table {
+    color: #e3e2e2;
+    --bs-table-bg: transparent;
+    --bs-table-color: #e3e2e2;
+    --bs-table-hover-bg: rgba(255, 255, 255, 0.05);
+    --bs-table-border-color: #3e4152;
+}
+
+.smartdashboard-dark .table thead th {
+    border-bottom: 2px solid #4a4f65;
+    color: #fbbf24;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    padding: 12px;
+}
+
+.smartdashboard-dark .table-light,
+.smartdashboard-dark thead.table-light,
+.smartdashboard-dark .table-light th,
+.smartdashboard-dark thead.table-light th {
+    --bs-table-bg: #1e2233;
+    --bs-table-color: #fbbf24;
+    background-color: #1e2233;
+    color: #fbbf24;
+    border-color: #4a4f65;
+}
+
+.smartdashboard-dark .table td,
+.smartdashboard-dark .table th {
+    border-color: #3e4152;
+    vertical-align: middle;
+}
+
+.smartdashboard-dark thead.bg-light,
+.smartdashboard-dark thead.bg-light th {
+    background-color: #1e2233;
+    color: #fbbf24;
+}
+
+/* List Groups — Dark */
+.smartdashboard-dark .list-group-item {
+    background-color: transparent;
+    border-color: #3e4152;
+    color: #e3e2e2;
+}
+
+/* Badges — Dark */
+.smartdashboard-dark .badge.bg-light {
+    background-color: #3e4152 !important;
+    color: #e3e2e2 !important;
+}
+
+/* Alerts — Dark */
+.smartdashboard-dark .alert {
+    background-color: #323548;
+    border-color: #3e4152;
+    color: #e3e2e2;
+}
+
+/* Utils — Dark */
+.smartdashboard-dark .bg-white {
+    background-color: #323548 !important;
+    color: #e3e2e2 !important;
+}
+
+.smartdashboard-dark .bg-light {
+    background-color: #252836 !important;
+    color: #e3e2e2 !important;
+}
+
+/* Buttons — Dark */
+.smartdashboard-dark .btn-outline-secondary {
+    color: #aeb0b5;
+    border-color: #3e4152;
+}
+
+.smartdashboard-dark .btn-outline-secondary:hover {
+    background-color: #3e4152;
+    color: #fff;
+}
+
+.smartdashboard-dark .card-header.bg-white {
+    background-color: #323548;
+    color: #fff;
+    border: none;
+}
+
+.smartdashboard-dark .card-header h6 {
+    color: #fff;
+}
+
+/* Student Icons — Dark */
+.smartdashboard-dark .student-icon-card {
+    background-color: #323548;
+}
+
+.smartdashboard-dark .student-icon-card .text-dark {
+    color: #e3e2e2 !important;
+}
+
+.smartdashboard-dark .student-icon-card .bg-light {
+    background-color: #252836 !important;
+    color: #60a5fa !important;
+}
+
+/* Student Overview — Dark */
+.smartdashboard-dark .student-overview-card {
+    background-color: #323548;
+    border: 1px solid #3e4152 !important;
+}
+
+.smartdashboard-dark .student-overview-card .card-header h5 {
+    color: #fff;
+}
+
+.smartdashboard-dark .student-course-item {
+    color: #e3e2e2;
+}
+
+.smartdashboard-dark .student-course-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.smartdashboard-dark .student-course-name {
+    color: #fff;
+}
+
+.smartdashboard-dark .student-course-thumb-placeholder {
+    background-color: #252836;
+    color: #60a5fa;
+}
+
+.smartdashboard-dark .student-progress-bar {
+    background-color: #1f222e;
+}
+
+.smartdashboard-dark .student-deadline-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.smartdashboard-dark .student-deadline-name {
+    color: #fff;
+}
+
+.smartdashboard-dark .student-deadline-urgent {
+    background-color: rgba(220, 53, 69, 0.08);
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.smartdashboard-dark .student-grade-card {
+    background-color: #252836;
+    border: 1px solid #3e4152;
+}
+
+.smartdashboard-dark .student-grade-card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.smartdashboard-dark .student-grade-course {
+    color: #aeb0b5;
+}
+
+.smartdashboard-dark .student-feedback-item {
+    background-color: #252836;
+    border: 1px solid #3e4152;
+}
+
+.smartdashboard-dark .student-feedback-item:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.smartdashboard-dark .student-feedback-score {
+    background-color: #323548 !important;
+    border-color: #3e4152 !important;
+    color: #e3e2e2 !important;
+}
+
+/* Fix text colors inside the dark mode overview cards */
+.smartdashboard-dark .student-overview-card {
+    color: #e3e2e2;
+}
+
+.smartdashboard-dark .student-overview-card .text-muted {
+    color: #aeb0b5 !important;
+}
+
+.smartdashboard-dark .student-overview-card .text-dark {
+    color: #e3e2e2 !important;
+}
+
+.smartdashboard-dark .student-overview-card .bg-light {
+    background-color: #2b2d3e !important;
+}
+
+.smartdashboard-dark .student-badge-name {
+    color: #e3e2e2;
+}
+
+/* Blocks — Force light inside dark dashboard */
+.smartdashboard-dark .block,
+.smartdashboard-dark .block-region,
+.smartdashboard-dark [data-block] {
+    background-color: #fff;
+    color: #1d2125;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    margin-bottom: 12px;
+}
+
+.smartdashboard-dark .block .card-header,
+.smartdashboard-dark .block .header,
+.smartdashboard-dark .block .card-title,
+.smartdashboard-dark .block .block-header,
+.smartdashboard-dark .block-region .card-header,
+.smartdashboard-dark .block-region .card-title {
+    background-color: #f8f9fa;
+    color: #1d2125;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.smartdashboard-dark .block .card-body,
+.smartdashboard-dark .block .content,
+.smartdashboard-dark .block .block-content {
+    background-color: #fff;
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block .card {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    box-shadow: none;
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block h1,
+.smartdashboard-dark .block h2,
+.smartdashboard-dark .block h3,
+.smartdashboard-dark .block h4,
+.smartdashboard-dark .block h5,
+.smartdashboard-dark .block h6,
+.smartdashboard-dark .block-region h1,
+.smartdashboard-dark .block-region h2,
+.smartdashboard-dark .block-region h3,
+.smartdashboard-dark .block-region h4,
+.smartdashboard-dark .block-region h5,
+.smartdashboard-dark .block-region h6 {
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block .text-muted,
+.smartdashboard-dark .block-region .text-muted {
+    color: #6c757d !important;
+}
+
+.smartdashboard-dark .block .text-dark,
+.smartdashboard-dark .block-region .text-dark {
+    color: #1d2125 !important;
+}
+
+.smartdashboard-dark .block a,
+.smartdashboard-dark .block-region a {
+    color: #0d6efd;
+}
+
+.smartdashboard-dark .block a:hover,
+.smartdashboard-dark .block-region a:hover {
+    color: #0a58ca;
+}
+
+.smartdashboard-dark .block .form-select,
+.smartdashboard-dark .block .form-control {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block .table {
+    color: #1d2125;
+    --bs-table-bg: #fff;
+    --bs-table-color: #1d2125;
+    --bs-table-hover-bg: #f8f9fa;
+    --bs-table-border-color: #dee2e6;
+}
+
+.smartdashboard-dark .block .table thead th {
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block .bg-white {
+    background-color: #fff !important;
+    color: #1d2125 !important;
+}
+
+.smartdashboard-dark .block .bg-light {
+    background-color: #f8f9fa !important;
+    color: #1d2125 !important;
+}
+
+.smartdashboard-dark .block .badge.bg-light {
+    background-color: #e9ecef !important;
+    color: #1d2125 !important;
+}
+
+.smartdashboard-dark .block .alert {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block .list-group-item {
+    background-color: #fff;
+    border-color: #dee2e6;
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block .progress {
+    background-color: #e9ecef;
+}
+
+.smartdashboard-dark .block .dropdown-menu {
+    background-color: #fff;
+    border-color: #dee2e6;
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block .dropdown-item {
+    color: #1d2125;
+}
+
+.smartdashboard-dark .block .dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+
+/* ===========================================================
+   LIGHT MODE — .smartdashboard-light
+   =========================================================== */
+
+body.path-local-smartdashboard:has(.smartdashboard-light) {
+    background-color: #f0f2f5;
+    color: #1d2125;
+}
+
+body.path-local-smartdashboard:has(.smartdashboard-light) .drawer-content {
+    background-color: #f0f2f5;
+    padding: 0;
+}
+
+body.path-local-smartdashboard:has(.smartdashboard-light) .secondary-navigation {
+    background-color: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    max-width: 100%;
+}
+
+/* Container — Light */
+.smartdashboard-light {
+    background-color: transparent;
+    color: #1d2125;
+}
+
+.smartdashboard-light .smartdashboard-page-title {
+    color: #1e293b !important;
+}
+
+/* Headings — Light */
+.smartdashboard-light h1,
+.smartdashboard-light h2,
+.smartdashboard-light h3,
+.smartdashboard-light h4,
+.smartdashboard-light h5,
+.smartdashboard-light h6,
+.smartdashboard-light .dashboard-title {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.smartdashboard-light .text-muted {
+    color: #6b7280 !important;
+}
+
+.smartdashboard-light .text-secondary {
+    color: #4b5563 !important;
+}
+
+.smartdashboard-light .form-label {
+    color: #374151;
+    font-weight: 600;
+}
+
+/* Sidebar — Light */
+.smartdashboard-light #sidebar-col {
+    background-color: var(--bs-card-bg, #ffffff);
+}
+
+.smartdashboard-light .smartdashboard-sidebar {
+    background-color: var(--bs-card-bg, #ffffff);
+    border-right: 1px solid var(--bs-border-color, #dee2e6);
+}
+
+.smartdashboard-light .smartdashboard-sidebar .nav-link {
+    color: var(--bs-secondary-color, #6c757d);
+}
+
+.smartdashboard-light .smartdashboard-sidebar .nav-link:hover {
+    color: var(--bs-body-color, #212529);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.smartdashboard-light .smartdashboard-sidebar h4,
+.smartdashboard-light .smartdashboard-sidebar .dashboard-heading-text {
+    color: var(--bs-body-color, #1e293b) !important;
+}
+
+/* Cards — Light */
+.smartdashboard-light .card {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    color: #1d2125;
+}
+
+.smartdashboard-light .dashboard-section .card {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+}
+
+.smartdashboard-light .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e5e7eb;
+    color: #1e293b;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+.smartdashboard-light .card-body {
+    padding: 20px;
+    color: #1d2125;
+}
+
+/* Stat cards — Light: override dark JS-injected backgrounds */
+.smartdashboard-light .card.bg-dark {
+    background-color: var(--bs-card-bg, #ffffff) !important;
+    color: var(--bs-body-color, #1e293b) !important;
+    border: 1px solid var(--bs-border-color, #dee2e6) !important;
+}
+
+.smartdashboard-light .card.bg-dark .text-white,
+.smartdashboard-light .card.bg-dark .text-uppercase,
+.smartdashboard-light .card.bg-dark .fs-4,
+.smartdashboard-light .card.bg-dark .opacity-75,
+.smartdashboard-light .card.bg-dark .opacity-50 {
+    color: var(--bs-body-color, #1e293b) !important;
+}
+
+.smartdashboard-light .card.bg-primary {
+    background-color: var(--bs-card-bg, #ffffff) !important;
+    color: var(--bs-body-color, #1e293b) !important;
+    border: 1px solid var(--bs-border-color, #dee2e6) !important;
+    border-left: 4px solid var(--bs-primary, #0d6efd) !important;
+}
+
+.smartdashboard-light .card.bg-primary .text-white {
+    color: var(--bs-body-color, #1e293b) !important;
+}
+
+.smartdashboard-light .card.bg-primary .opacity-75,
+.smartdashboard-light .card.bg-primary .opacity-50 {
+    color: var(--bs-body-color, #1e293b) !important;
+    opacity: 1 !important;
+}
+
+.smartdashboard-light .card.bg-primary i.fa {
+    color: var(--bs-primary, #0d6efd) !important;
+}
+
+.smartdashboard-light .card.bg-success {
+    background-color: var(--bs-card-bg, #ffffff) !important;
+    color: var(--bs-body-color, #1e293b) !important;
+    border: 1px solid var(--bs-border-color, #dee2e6) !important;
+    border-left: 4px solid var(--bs-success, #198754) !important;
+}
+
+.smartdashboard-light .card.bg-success .text-white {
+    color: var(--bs-body-color, #1e293b) !important;
+}
+
+.smartdashboard-light .card.bg-success i.fa {
+    color: var(--bs-success, #198754) !important;
+}
+
+.smartdashboard-light .card.bg-danger {
+    background-color: var(--bs-card-bg, #ffffff) !important;
+    color: var(--bs-body-color, #1e293b) !important;
+    border: 1px solid var(--bs-border-color, #dee2e6) !important;
+    border-left: 4px solid var(--bs-danger, #dc3545) !important;
+}
+
+.smartdashboard-light .card.bg-danger .text-white {
+    color: var(--bs-body-color, #1e293b) !important;
+}
+
+.smartdashboard-light .card.bg-danger i.fa {
+    color: var(--bs-danger, #dc3545) !important;
+}
+
+.smartdashboard-light .card.bg-warning {
+    background-color: var(--bs-card-bg, #ffffff) !important;
+    color: var(--bs-body-color, #1e293b) !important;
+    border: 1px solid var(--bs-border-color, #dee2e6) !important;
+    border-left: 4px solid var(--bs-warning, #ffc107) !important;
+}
+
+.smartdashboard-light .card.bg-warning i.fa {
+    color: var(--bs-warning, #ffc107) !important;
+}
+
+.smartdashboard-light .progress.bg-dark {
+    background-color: var(--bs-secondary-bg, #e9ecef) !important;
+    border-color: var(--bs-border-color, #dee2e6) !important;
+}
+
+/* Circle icons in tables — increase visibility in light mode */
+.smartdashboard-light .fa.text-muted.opacity-25,
+.smartdashboard-light .fa.text-muted.opacity-50 {
+    color: #475569 !important;
+    opacity: 0.85 !important;
+}
+
+.smartdashboard-light .course-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+}
+
+.smartdashboard-light .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.smartdashboard-light .card-img-top-wrapper {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background-color: #f1f5f9;
+}
+
+/* Links — Light */
+.smartdashboard-light a {
+    color: #2563eb;
+}
+
+.smartdashboard-light a:hover {
+    color: #1d4ed8;
+    text-decoration: none;
+}
+
+.smartdashboard-light .text-dark {
+    color: #1d2125 !important;
+}
+
+/* Forms — Light */
+.smartdashboard-light .form-select,
+.smartdashboard-light .form-control {
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    color: #1d2125;
+    border-radius: 8px;
+}
+
+.smartdashboard-light .form-select:focus,
+.smartdashboard-light .form-control:focus {
+    background-color: #fff;
+    color: #1d2125;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.15);
+}
+
+/* Tables — Light */
+.smartdashboard-light .table {
+    color: #1d2125;
+    --bs-table-bg: transparent;
+    --bs-table-color: #1d2125;
+    --bs-table-hover-bg: #f8fafc;
+    --bs-table-border-color: #e5e7eb;
+}
+
+.smartdashboard-light .table thead th {
+    border-bottom: 2px solid #d1d5db !important;
+    color: #374151 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    font-size: 0.85rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 12px !important;
+    background-color: #f8fafc !important;
+}
+
+.smartdashboard-light .table-light,
+.smartdashboard-light thead.table-light,
+.smartdashboard-light .table-light th,
+.smartdashboard-light thead.table-light th {
+    --bs-table-bg: #f8fafc;
+    --bs-table-color: #374151;
+    background-color: #f8fafc !important;
+    color: #374151 !important;
+    border-color: #e5e7eb !important;
+}
+
+.smartdashboard-light .table td,
+.smartdashboard-light .table th {
+    border-color: #e5e7eb;
+    vertical-align: middle;
+}
+
+.smartdashboard-light thead.bg-light,
+.smartdashboard-light thead.bg-light th {
+    background-color: #f8fafc !important;
+    color: #374151 !important;
+}
+
+/* List Groups — Light */
+.smartdashboard-light .list-group-item {
+    background-color: #fff;
+    border-color: #e5e7eb;
+    color: #1d2125;
+}
+
+/* Badges — Light */
+.smartdashboard-light .badge.bg-light {
+    background-color: #e5e7eb !important;
+    color: #374151 !important;
+}
+
+.smartdashboard-light .badge.bg-secondary,
+.smartdashboard-light .badge.bg-secondary.text-white {
+    background-color: #cbd5e1 !important;
+    color: #1e293b !important;
+}
+
+/* Alerts — Light */
+.smartdashboard-light .alert {
+    background-color: #f8fafc;
+    border-color: #e5e7eb;
+    color: #1d2125;
+}
+
+/* Utils — Light */
+.smartdashboard-light .bg-white {
+    background-color: #fff !important;
+    color: #1d2125 !important;
+}
+
+.smartdashboard-light .bg-light {
+    background-color: #f8fafc !important;
+    color: #1d2125 !important;
+}
+
+/* Buttons — Light */
+.smartdashboard-light .btn-outline-secondary {
+    color: #6b7280;
+    border-color: #d1d5db;
+}
+
+.smartdashboard-light .btn-outline-secondary:hover {
+    background-color: #f3f4f6;
+    color: #1d2125;
+}
+
+.smartdashboard-light .card-header.bg-white {
+    background-color: #f8f9fa;
+    color: #1e293b;
+    border: none;
+}
+
+.smartdashboard-light .card-header h6 {
+    color: #1e293b;
+}
+
+/* Student Icons — Light */
+.smartdashboard-light .student-icon-card {
+    background-color: #fff;
+}
+
+.smartdashboard-light .student-icon-card .text-dark {
+    color: #1f2937 !important;
+}
+
+.smartdashboard-light .student-icon-card .bg-light {
+    background-color: #eff6ff !important;
+    color: #2563eb !important;
+}
+
+/* Student Overview — Light */
+.smartdashboard-light .student-overview-card {
+    background-color: #fff;
+    border: 1px solid #e5e7eb !important;
+}
+
+.smartdashboard-light .student-overview-card .card-header h5 {
+    color: #1e293b;
+}
+
+.smartdashboard-light .student-course-item {
+    color: #1d2125;
+}
+
+.smartdashboard-light .student-course-item:hover {
+    background-color: #f8fafc;
+}
+
+.smartdashboard-light .student-course-name {
+    color: #1e293b;
+}
+
+.smartdashboard-light .student-course-thumb-placeholder {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.smartdashboard-light .student-progress-bar {
+    background-color: #e5e7eb;
+}
+
+.smartdashboard-light .student-deadline-item:hover {
+    background-color: #f8fafc;
+}
+
+.smartdashboard-light .student-deadline-name {
+    color: #1e293b;
+}
+
+.smartdashboard-light .student-deadline-urgent {
+    background-color: rgba(220, 53, 69, 0.05);
+    border: 1px solid rgba(220, 53, 69, 0.15);
+}
+
+.smartdashboard-light .student-grade-card {
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+}
+
+.smartdashboard-light .student-grade-card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.smartdashboard-light .student-grade-course {
+    color: #6b7280;
+}
+
+.smartdashboard-light .student-feedback-item {
+    background-color: #f8fafc;
+    border: 1px solid #e5e7eb;
+}
+
+.smartdashboard-light .student-feedback-item:hover {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.smartdashboard-light .student-feedback-score {
+    background-color: #ffffff !important;
+    border-color: #e5e7eb !important;
+    color: #1e293b !important;
+}
+
+.smartdashboard-light .student-badge-name {
+    color: #1e293b;
+}
+
+/* Blocks — Light (standard look) */
+.smartdashboard-light .block,
+.smartdashboard-light .block-region,
+.smartdashboard-light [data-block] {
+    background-color: #fff;
+    color: #1d2125;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    margin-bottom: 12px;
+}
+
+.smartdashboard-light .block .card-header,
+.smartdashboard-light .block .header,
+.smartdashboard-light .block .card-title,
+.smartdashboard-light .block .block-header {
+    background-color: #f8f9fa;
+    color: #1d2125;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.smartdashboard-light .block .card-body,
+.smartdashboard-light .block .content,
+.smartdashboard-light .block .block-content {
+    background-color: #fff;
+    color: #1d2125;
+}
+
+.smartdashboard-light .block .card {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    box-shadow: none;
+    color: #1d2125;
+}
+
+.smartdashboard-light .block h1,
+.smartdashboard-light .block h2,
+.smartdashboard-light .block h3,
+.smartdashboard-light .block h4,
+.smartdashboard-light .block h5,
+.smartdashboard-light .block h6 {
+    color: #1d2125;
+}
+
+.smartdashboard-light .block a {
+    color: #2563eb;
+}
+
+.smartdashboard-light .block a:hover {
+    color: #1d4ed8;
+}
+
+.smartdashboard-light .block .progress {
+    background-color: #e9ecef;
+}
+
+.smartdashboard-light .block .dropdown-menu {
+    background-color: #fff;
+    border-color: #e5e7eb;
+    color: #1d2125;
+}
+
+.smartdashboard-light .block .dropdown-item {
+    color: #1d2125;
+}
+
+.smartdashboard-light .block .dropdown-item:hover {
+    background-color: #f3f4f6;
+}
+
+/*
+ * Main interface styles for student grades report
+ * @package     report_studentgrades
+ * @copyright   2025 Mohammad Nabil <mohammad@smartlearn.education>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+/* Main interface styles */
+.report-studentgrades .form-group {
+    margin-bottom: 15px;
+}
+
+.report-studentgrades label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.report-studentgrades .form-control {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.report-studentgrades .btn {
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.report-studentgrades .btn-primary {
+    background-color: #0073aa;
+    color: white;
+}
+
+.report-studentgrades .btn-primary:hover {
+    background-color: #005a87;
+}
+
+/* Export preview styles */
+.report-studentgrades .export-preview {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
+
+.report-studentgrades .export-preview h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+/* ===========================================================
+   Grade Details specific Dark Mode overrides
+   =========================================================== */
+.smartdashboard-dark #reportTabs .nav-link {
+    color: #e2e8f0;
+    border-color: #475569 !important;
+}
+.smartdashboard-dark #reportTabs .nav-link.active {
+    color: #ffffff;
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+}
+
+.smartdashboard-dark #aiHistoryAccordion .btn-link {
+    color: #93c5fd !important;
+    text-decoration: none;
+}
+.smartdashboard-dark #aiHistoryAccordion .btn-link:hover {
+    color: #bfdbfe !important;
+}
+
+/* ── Fallback Catalog Styles ── */
+.sc-course-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid var(--bs-border-color);
+}
+
+.sc-course-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.sc-card-img-container {
+    height: 180px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #f4f6f8;
+}
+
+.sc-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.sc-course-card:hover .sc-card-img {
+    transform: scale(1.05);
+}
+
+.sc-title-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    height: 2.8em;
+    line-height: 1.4;
+    font-size: 1.1rem;
+}
+
+.sc-view-btn {
+    transition: all 0.2s ease;
+    border-width: 2px;
+    font-weight: 600;
+}
+
+.sc-view-btn:hover {
+    background-color: #6c63ff;
+    border-color: #6c63ff;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.sc-desc-container {
+    height: 80px;
+    overflow-y: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding-right: 5px;
+}
+
+.sc-desc-container::-webkit-scrollbar {
+    width: 4px;
+}
+.sc-desc-container::-webkit-scrollbar-track {
+    background: transparent; 
+}
+.sc-desc-container::-webkit-scrollbar-thumb {
+    background: #e0e0e0; 
+    border-radius: 4px;
+}
+
+.sc-teachers-container {
+    max-height: 110px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.sc-teachers-container::-webkit-scrollbar {
+    width: 4px;
+}
+.sc-teachers-container::-webkit-scrollbar-track {
+    background: transparent; 
+}
+.sc-teachers-container::-webkit-scrollbar-thumb {
+    background: #e0e0e0; 
+    border-radius: 4px;
+}
+
+/* ── Course card hover popup ───────────────────────────────── */
+.sc-course-card-wrapper {
+    position: relative;
+}
+
+.sc-hover-popup {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 15px);
+    width: 320px;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    pointer-events: none;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.sc-hover-popup::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: -8px;
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    border-left: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+    transform: rotate(45deg);
+}
+
+.sc-course-card-wrapper:hover .sc-hover-popup {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.sc-hover-popup::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -20px;
+    width: 25px;
+}
+
+.sc-hover-popup.sc-popup-left {
+    left: auto;
+    right: calc(100% + 15px);
+    transform: translateX(-10px);
+}
+
+.sc-hover-popup.sc-popup-left::after {
+    left: auto;
+    right: -20px;
+}
+
+.sc-hover-popup.sc-popup-left::before {
+    left: auto;
+    right: -8px;
+    border-left: none;
+    border-bottom: none;
+    border-right: 1px solid #e9ecef;
+    border-top: 1px solid #e9ecef;
+}
+
+.sc-course-card-wrapper:hover .sc-hover-popup.sc-popup-left {
+    transform: translateX(0);
+}
+
+.sc-course-card-wrapper:hover .sc-course-card {
+    transform: translateY(-4px);
+}
+
+.sc-popup-desc {
+    max-height: 100px;
+    overflow: hidden;
+    position: relative;
+}
+
+.sc-popup-desc-text {
+    font-size: 0.84rem;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.sc-popup-skills {
+    max-height: 160px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.sc-popup-skills::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sc-popup-skills::-webkit-scrollbar-thumb {
+    background: #d0d0d0;
+    border-radius: 4px;
+}
+
+@media (max-width: 992px) {
+    .sc-hover-popup {
+        display: none !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .row > .sc-catalog-col:nth-child(3n) .sc-hover-popup {
+        left: auto;
+        right: calc(100% + 15px);
+        transform: translateX(-10px);
+    }
+    .row > .sc-catalog-col:nth-child(3n) .sc-hover-popup::after {
+        left: auto;
+        right: -20px;
+    }
+    .row > .sc-catalog-col:nth-child(3n) .sc-hover-popup::before {
+        left: auto;
+        right: -8px;
+        border-left: none;
+        border-bottom: none;
+        border-right: 1px solid #e9ecef;
+        border-top: 1px solid #e9ecef;
+    }
+    .row > .sc-catalog-col:nth-child(3n) .sc-course-card-wrapper:hover .sc-hover-popup {
+        transform: translateX(0);
+    }
+}
+
+/* ===========================================================
+   MOBILE RESPONSIVE — Sidebar Drawer & Layout
+   =========================================================== */
+
+/* --- Mobile Sidebar Drawer (< 768px) --- */
+@media (max-width: 767.98px) {
+    /* Force sidebar into an offcanvas overlay drawer on mobile */
+    .dashboard-container #sidebar-col,
+    .dashboard-container.sidebar-collapsed #sidebar-col {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: auto !important;
+        width: 280px !important;
+        max-width: 85vw !important;
+        min-width: 260px !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        z-index: 1055 !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.25) !important;
+        overflow-y: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        flex: unset !important;
+    }
+
+    /* RTL support: in RTL, anchor to right and slide from right */
+    [dir="rtl"] .dashboard-container #sidebar-col,
+    [dir="rtl"] .dashboard-container.sidebar-collapsed #sidebar-col,
+    body.dir-rtl .dashboard-container #sidebar-col,
+    body.dir-rtl .dashboard-container.sidebar-collapsed #sidebar-col {
+        left: auto !important;
+        right: 0 !important;
+        transform: translateX(100%) !important;
+        box-shadow: -4px 0 25px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    /* When drawer is open (both LTR and RTL slide into view) */
+    .dashboard-container #sidebar-col.smartdashboard-drawer-open,
+    .dashboard-container.sidebar-collapsed #sidebar-col.smartdashboard-drawer-open,
+    [dir="rtl"] .dashboard-container #sidebar-col.smartdashboard-drawer-open,
+    [dir="rtl"] .dashboard-container.sidebar-collapsed #sidebar-col.smartdashboard-drawer-open,
+    body.dir-rtl .dashboard-container #sidebar-col.smartdashboard-drawer-open,
+    body.dir-rtl .dashboard-container.sidebar-collapsed #sidebar-col.smartdashboard-drawer-open {
+        transform: translateX(0) !important;
+    }
+
+    /* Explicit drawer background per theme mode */
+    .smartdashboard-dark #sidebar-col,
+    .smartdashboard-dark.sidebar-collapsed #sidebar-col {
+        background-color: #1a1d21 !important;
+    }
+
+    .smartdashboard-light #sidebar-col,
+    .smartdashboard-light.sidebar-collapsed #sidebar-col {
+        background-color: #ffffff !important;
+    }
+
+    /* Push sidebar inner content below Moodle top navbar */
+    .dashboard-container #sidebar-col .smartdashboard-sidebar,
+    .dashboard-container.sidebar-collapsed #sidebar-col .smartdashboard-sidebar {
+        min-height: 100vh !important;
+        padding-top: 65px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        border-radius: 0 !important;
+    }
+
+    /* Main content always takes full width on mobile */
+    .dashboard-container #main-content-col,
+    .dashboard-container.sidebar-collapsed #main-content-col {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 0 100% !important;
+        padding: 12px !important;
+    }
+
+    /* Mobile close button inside drawer */
+    #sidebar-close-btn {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        font-size: 1.15rem !important;
+        line-height: 1 !important;
+        cursor: pointer !important;
+        z-index: 1070 !important;
+        flex-shrink: 0 !important;
+        border: none !important;
+    }
+
+    .smartdashboard-dark #sidebar-close-btn {
+        background-color: rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .smartdashboard-dark #sidebar-close-btn:hover,
+    .smartdashboard-dark #sidebar-close-btn:active {
+        background-color: rgba(255, 255, 255, 0.3) !important;
+        color: #ffffff !important;
+    }
+
+    .smartdashboard-light #sidebar-close-btn {
+        background-color: rgba(0, 0, 0, 0.08) !important;
+        color: #1e293b !important;
+        border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .smartdashboard-light #sidebar-close-btn:hover,
+    .smartdashboard-light #sidebar-close-btn:active {
+        background-color: rgba(0, 0, 0, 0.16) !important;
+        color: #1e293b !important;
+    }
+
+    /* Ensure heading and nav texts are ALWAYS visible inside mobile drawer */
+    .dashboard-container #sidebar-col .dashboard-heading-text,
+    .dashboard-container.sidebar-collapsed #sidebar-col .dashboard-heading-text {
+        display: block !important;
+        opacity: 1 !important;
+        width: auto !important;
+        visibility: visible !important;
+        font-size: 1.25rem !important;
+        margin: 0 !important;
+    }
+
+    .dashboard-container #sidebar-col .nav-text,
+    .dashboard-container.sidebar-collapsed #sidebar-col .nav-text {
+        display: inline !important;
+        opacity: 1 !important;
+        width: auto !important;
+        visibility: visible !important;
+    }
+
+    .dashboard-container #sidebar-col .nav-chevron,
+    .dashboard-container.sidebar-collapsed #sidebar-col .nav-chevron {
+        display: inline-block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .dashboard-container #sidebar-col .smartdashboard-sidebar .nav-link,
+    .dashboard-container.sidebar-collapsed #sidebar-col .smartdashboard-sidebar .nav-link {
+        justify-content: flex-start !important;
+        padding: 12px 16px !important;
+        min-height: 44px !important;
+    }
+
+    .dashboard-container #sidebar-col .smartdashboard-sidebar .nav-link i,
+    .dashboard-container.sidebar-collapsed #sidebar-col .smartdashboard-sidebar .nav-link i {
+        margin-right: 10px !important;
+        font-size: 1.1rem !important;
+    }
+
+    /* RTL icon margin */
+    [dir="rtl"] .dashboard-container #sidebar-col .smartdashboard-sidebar .nav-link i,
+    body.dir-rtl .dashboard-container #sidebar-col .smartdashboard-sidebar .nav-link i {
+        margin-right: 0 !important;
+        margin-left: 10px !important;
+    }
+
+    /* Reduce header padding on mobile */
+    .dashboard-container .px-4 {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .dashboard-container .pt-4 {
+        padding-top: 12px !important;
+    }
+}
+
+/* Sidebar backdrop overlay */
+.smartdashboard-sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.smartdashboard-sidebar-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-container #sidebar-col,
+    .smartdashboard-sidebar-backdrop {
+        transition: none !important;
+    }
+}
+
+/* --- Touch Targets (≥44px) on Mobile --- */
+@media (max-width: 767.98px) {
+    .smartdashboard-sidebar .nav-link {
+        min-height: 44px;
+        padding: 10px 16px;
+    }
+
+    .smartdashboard-sidebar .nav-link.small {
+        min-height: 44px;
+        padding: 8px 16px;
+    }
+}
+
+/* --- Responsive Tables on Mobile --- */
+@media (max-width: 767.98px) {
+    .dashboard-container .table th,
+    .dashboard-container .table td {
+        padding: 8px 6px !important;
+        font-size: 0.8rem;
+    }
+
+    .dashboard-container .table-responsive {
+        -webkit-overflow-scrolling: touch;
+        overflow-x: auto;
+    }
+}
+
+/* --- Chart Container Constraints --- */
+.dashboard-container canvas {
+    max-width: 100%;
+}
+
+@media (max-width: 575.98px) {
+    .dashboard-container [style*="height: 300px"],
+    .dashboard-container [style*="height:300px"] {
+        max-height: 220px !important;
+    }
+
+    .dashboard-container canvas {
+        max-height: 220px;
+    }
+}
+
+/* --- Mobile Header Metric Cards --- */
+@media (max-width: 767.98px) {
+    .student-info-card {
+        min-width: unset !important;
+    }
+}
+
+/* --- Mobile Sidebar Toggle Fixed Button --- */
+@media (max-width: 767.98px) {
+    .dashboard-container .smartdashboard-mobile-toggle {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1040;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        background: var(--bs-primary, #3b82f6);
+        color: #fff;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+}
+
+@media (min-width: 768px) {
+    .smartdashboard-mobile-toggle {
+        display: none !important;
+    }
+}
+
+/* --- Mobile KPI Cards (Parent/Mentor view) --- */
+@media (max-width: 767.98px) {
+    /* Compact icon circles on mobile */
+    .dashboard-container .rounded-circle[style*="width: 48px"] {
+        width: 32px !important;
+        height: 32px !important;
+        margin-right: 0 !important;
+        margin-bottom: 4px;
+    }
+
+    .dashboard-container .rounded-circle[style*="width: 48px"] i.fa {
+        font-size: 0.85rem !important;
+    }
+
+    /* Compact KPI text on mobile */
+    .dashboard-container .card-body .text-uppercase.small {
+        font-size: 0.6rem !important;
+        line-height: 1.2;
+    }
+
+    .dashboard-container .card-body .fs-5 {
+        font-size: 0.85rem !important;
+    }
+
+    /* Remove the fixed max-width on parent select container for mobile */
+    .dashboard-container .d-flex.flex-column.gap-2[style*="max-width: 300px"] {
+        max-width: 100% !important;
+    }
+
+    /* Ensure select dropdowns are full width on mobile */
+    .dashboard-container .input-group .form-select {
+        min-height: 44px;
+    }
+
+    /* Compact header metric cards text */
+    .student-info-card .card-body {
+        padding: 6px 8px !important;
+    }
+
+    .student-info-card .text-secondary.small {
+        font-size: 0.65rem !important;
+    }
+
+    .student-info-card .fs-5 {
+        font-size: 0.8rem !important;
+    }
+
+    .student-info-card .fs-6 {
+        font-size: 0.65rem !important;
+    }
+}

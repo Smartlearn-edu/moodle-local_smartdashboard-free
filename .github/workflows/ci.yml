@@ -1,0 +1,81 @@
+name: Moodle Plugin CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: moodle
+          POSTGRES_PASSWORD: moodle_password
+          POSTGRES_DB: moodle_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    strategy:
+      matrix:
+        moodle-branch: ['MOODLE_403_STABLE', 'MOODLE_404_STABLE', 'MOODLE_405_STABLE', 'main']
+        php: ['8.1', '8.2', '8.3']
+        exclude:
+          - moodle-branch: 'MOODLE_403_STABLE'
+            php: '8.3'
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          path: plugin
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pgsql, pdo_pgsql, xmlrpc, soap, intl, gd, zip
+          coverage: none
+
+      - name: Setup Moodle CI
+        run: |
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4.0
+          echo $(cd ci/bin; pwd) >> $GITHUB_PATH
+
+      - name: Install Moodle
+        run: |
+          moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1 --db-user=moodle --db-pass=moodle_password --db-name=moodle_db
+        env:
+          MOODLE_BRANCH: ${{ matrix.moodle-branch }}
+          DB: pgsql
+
+      - name: Run phplint
+        run: moodle-plugin-ci phplint
+
+      - name: Run phpcs
+        run: moodle-plugin-ci phpcs
+
+      - name: Run mustache
+        run: moodle-plugin-ci mustache
+
+      - name: Run grunt
+        run: moodle-plugin-ci grunt
+
+      - name: Run phpunit
+        run: moodle-plugin-ci phpunit
+
+      - name: Run behat
+        run: moodle-plugin-ci behat --profile chrome

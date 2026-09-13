@@ -1,0 +1,148 @@
+<div id="section-overview" class="dashboard-section">
+                    {{{blocks_main}}}
+
+                    {{#isstudent}}
+                    {{> local_smartdashboard/sections/student_overview }}
+                    {{/isstudent}}
+
+                    {{#isprivileged}}
+                    <div class="card mb-4 border-0 shadow-sm animate__animated animate__fadeIn">
+                        <div class="card-body bg-light rounded">
+                            <form method="GET" action="#">
+                                <div class="row align-items-end">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <label class="form-label fw-bold text-muted small text-uppercase">{{#str}}filter_by_cat, local_smartdashboard{{/str}}</label>
+                                        <select name="categoryid" class="form-select">
+                                            <option value="0">{{#str}}select_category, local_smartdashboard{{/str}}</option>
+                                            {{#categories}}
+                                            <option value="{{id}}" {{#selected}}selected{{/selected}}>{{{name}}}</option>
+                                            {{/categories}}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                         <button type="submit" name="show" value="1" class="btn btn-primary w-100">
+                                            <i class="fa fa-filter me-1"></i> {{#str}}show_courses, local_smartdashboard{{/str}}
+                                         </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                   
+                    {{#hasstats}}
+                    <div class="card mb-4 border-0 shadow-sm animate__animated animate__fadeIn">
+                         <div class="card-body">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-primary">
+                                        <span id="stat-display-value" class="display-6 fw-bold">{{totalenrollments}}</span>
+                                        <span id="stat-display-label" class="fs-5 text-muted ms-2">{{#str}}total_enrollments, local_smartdashboard{{/str}}</span>
+                                    </h5>
+                                </div>
+                                <div class="mt-3 mt-md-0">
+                                    <div class="btn-group" role="group" aria-label="{{#str}} student_count_display, local_smartdashboard {{/str}}">
+                                        <input type="radio" class="btn-check stat-toggle-btn" name="stats-option" id="stat-opt-total" data-value="{{totalenrollments}}" data-label="{{#str}}total_enrollments, local_smartdashboard{{/str}}" checked>
+                                        <label class="btn btn-outline-secondary" for="stat-opt-total" title="{{#str}}direct_sum_tooltip, local_smartdashboard{{/str}}">{{#str}}direct_sum, local_smartdashboard{{/str}}</label>
+
+                                        <input type="radio" class="btn-check stat-toggle-btn" name="stats-option" id="stat-opt-unique" data-value="{{uniquestudents}}" data-label="{{#str}}unique_students, local_smartdashboard{{/str}}">
+                                        <label class="btn btn-outline-secondary" for="stat-opt-unique" title="{{#str}}unique_students_tooltip, local_smartdashboard{{/str}}">{{#str}}unique_students, local_smartdashboard{{/str}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                    {{/hasstats}}
+
+                    {{#hassubcategories}}
+                    <h5 class="mb-3 text-muted">{{#str}}subcategories, local_smartdashboard{{/str}}</h5>
+                    <div class="row mb-4">
+                        {{#subcategories}}
+                        <div class="col-12 col-sm-6 col-lg-4 d-flex align-items-stretch mb-3">
+                            <div class="card w-100 border-0 shadow-sm animate__animated animate__fadeIn">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="icon-circle bg-light text-primary me-3">
+                                            <i class="fa fa-folder-open fa-lg"></i>
+                                        </div>
+                                        <h5 class="card-title mb-0 text-truncate" title="{{name}}">
+                                            <a href="{{{url}}}" class="text-decoration-none text-dark stretched-link">{{name}}</a>
+                                        </h5>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <small class="text-muted"><i class="fa fa-users me-1"></i> {{uniquestudents}} {{#str}}students, local_smartdashboard{{/str}}</small>
+                                        <span class="badge bg-light text-secondary rounded-pill">{{totalenrollments}} {{#str}}enrollments, local_smartdashboard{{/str}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/subcategories}}
+                    </div>
+                    <h5 class="mb-3 text-muted">{{#str}}courses, local_smartdashboard{{/str}}</h5>
+                    {{/hassubcategories}}
+
+                    {{/isprivileged}}
+
+                    {{^isstudent}}
+                    <div class="row course-grid">
+                        {{#courses}}
+                        <div class="col-12 col-sm-6 col-xl-4 mb-4">
+                            <div class="card h-100 shadow-sm border-0 course-card">
+                                <div class="card-img-top-wrapper" style="height: 160px; overflow: hidden; background-color: var(--bs-tertiary-bg, #f5f5f5); position: relative;">
+                                    {{#imageurl}}
+                                    <img src="{{imageurl}}" class="card-img-top h-100 w-100 object-fit-cover" alt="{{fullname}}">
+                                    {{/imageurl}}
+                                    {{^imageurl}}
+                                    <div class="d-flex align-items-center justify-content-center h-100 text-secondary">
+                                        <i class="fa fa-graduation-cap fa-3x"></i>
+                                    </div>
+                                    {{/imageurl}}
+                                    
+                                    <div class="course-category-badge position-absolute top-0 end-0 m-2 badge bg-primary bg-opacity-75">
+                                        {{categoryname}}
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title text-truncate" title="{{fullname}}">
+                                        <a href="{{viewurl}}" class="text-decoration-none text-dark stretched-link">{{fullname}}</a>
+                                    </h5>
+                                    <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
+                                        <span class="text-muted small">
+                                            <i class="fa fa-users me-1"></i> {{studentcount}} {{#str}}students, local_smartdashboard{{/str}}
+                                        </span>
+                                        {{#hasgrading}}
+                                        <span class="badge bg-danger rounded-pill" title="{{gradingcount}} {{#str}}needsgrading, local_smartdashboard{{/str}}" style="position: relative; z-index: 2;">
+                                            <i class="fa fa-check-square-o me-1"></i> {{gradingcount}}
+                                        </span>
+                                        {{/hasgrading}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/courses}}
+                        {{^courses}}
+                        <div class="col-12">
+                            {{#isprivileged}}
+                                {{^showclicked}}
+                                    <div class="alert alert-light border text-center p-5">
+                                        <i class="fa fa-search fa-3x text-muted mb-3 op-5"></i>
+                                        <h4 class="text-muted">{{#str}}select_category_to_view, local_smartdashboard{{/str}}</h4>
+                                        <p class="text-muted small">{{#str}}select_category_to_filter, local_smartdashboard{{/str}}</p>
+                                    </div>
+                                {{/showclicked}}
+                                {{#showclicked}}
+                                    <div class="alert alert-warning" role="alert">
+                                        <i class="fa fa-info-circle me-1"></i> {{#str}}no_courses_found, local_smartdashboard{{/str}}
+                                    </div>
+                                {{/showclicked}}
+                            {{/isprivileged}}
+                            
+                            {{^isprivileged}}
+                                <div class="alert alert-info" role="alert">
+                                    {{#str}}nocourses, local_smartdashboard{{/str}}
+                                </div>
+                            {{/isprivileged}}
+                        </div>
+                        {{/courses}}
+                    </div>
+                    {{/isstudent}}
+                </div>

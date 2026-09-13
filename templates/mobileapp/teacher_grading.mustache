@@ -1,0 +1,32 @@
+{{=<% %>=}}
+<%#hasgrading%>
+<ion-list>
+    <ion-list-header>
+        <ion-label>{{ 'plugin.local_smartdashboard.section_grading' | translate }}</ion-label>
+    </ion-list-header>
+
+    <%#gradingcourses%>
+    <ion-item-group>
+        <ion-item-divider color="light">
+            <ion-label><% fullname %></ion-label>
+            <ion-button fill="clear" slot="end" core-link href="<% wwwroot %>/course/view.php?id=<% id %>">
+                {{ 'plugin.local_smartdashboard.gotocourse' | translate }}
+            </ion-button>
+        </ion-item-divider>
+
+        <%#assignments%>
+        <ion-item core-link href="<% wwwroot %>/mod/assign/view.php?id=<% cmid %>">
+            <ion-icon name="document-text-outline" slot="start" color="primary"></ion-icon>
+            <ion-label class="ion-text-wrap">
+                <h2 style="font-weight: bold; margin-bottom: 4px;"><% name %></h2>
+                <p style="margin-bottom: 8px;">{{ 'plugin.local_smartdashboard.due_date' | translate }}: <% duedatestr %></p>
+                <ion-badge color="danger">
+                    <% needsgrading %> {{ 'plugin.local_smartdashboard.needsgrading' | translate }}
+                </ion-badge>
+            </ion-label>
+        </ion-item>
+        <%/assignments%>
+    </ion-item-group>
+    <%/gradingcourses%>
+</ion-list>
+<%/hasgrading%>

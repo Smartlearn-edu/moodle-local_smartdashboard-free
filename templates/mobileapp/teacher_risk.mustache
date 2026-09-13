@@ -1,0 +1,48 @@
+{{=<% %>=}}
+<%#hasriskdata%>
+<ion-card color="light">
+    <ion-card-header>
+        <ion-card-title>
+            <ion-icon name="warning" color="danger" style="margin-right: 8px; vertical-align: middle;"></ion-icon>
+            {{ 'plugin.local_smartdashboard.at_risk_students' | translate }}
+        </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <ion-row>
+                <ion-col size="4" class="ion-text-center">
+                    <h2 style="color: var(--ion-color-danger); font-weight: bold; font-size: 24px;"><% risk_summary.high %></h2>
+                    <p style="font-size: 12px;">{{ 'plugin.local_smartdashboard.risk_high' | translate }}</p>
+                </ion-col>
+                <ion-col size="4" class="ion-text-center">
+                    <h2 style="color: var(--ion-color-warning); font-weight: bold; font-size: 24px;"><% risk_summary.medium %></h2>
+                    <p style="font-size: 12px;">{{ 'plugin.local_smartdashboard.risk_medium' | translate }}</p>
+                </ion-col>
+                <ion-col size="4" class="ion-text-center">
+                    <h2 style="color: var(--ion-color-success); font-weight: bold; font-size: 24px;"><% risk_summary.low %></h2>
+                    <p style="font-size: 12px;">{{ 'plugin.local_smartdashboard.risk_low' | translate }}</p>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>
+
+<ion-list>
+    <%#risk_students%>
+    <ion-item-sliding>
+        <ion-item>
+            <ion-avatar slot="start">
+                <ion-icon name="person-circle" style="font-size: 40px; color: var(--ion-color-<% color %>);"></ion-icon>
+            </ion-avatar>
+            <ion-label class="ion-text-wrap">
+                <h2><% fullname %></h2>
+                <p><% coursename %></p>
+            </ion-label>
+            <ion-badge slot="end" color="<% color %>">
+                <% riskscore %>%
+            </ion-badge>
+        </ion-item>
+    </ion-item-sliding>
+    <%/risk_students%>
+</ion-list>
+<%/hasriskdata%>

@@ -1,0 +1,569 @@
+{{!
+    @template local_smartdashboard/sections/student_overview
+
+    Student overview section showing courses with progress, deadlines, and grades.
+
+    Example context (json):
+    {
+        "hasstudentcourses": true,
+        "studentcourses": [],
+        "hasstudentdeadlines": true,
+        "studentdeadlines": [],
+        "hasstudentgrades": true,
+        "studentgrades": [],
+        "hasoverall": true,
+        "studentoverall": 78
+    }
+}}
+{{#isparent}}
+{{#has_target_mentee}}
+
+<!-- Parent Pedagogical Analytics: KPI Cards -->
+<div class="row g-3 mb-4 animate__animated animate__fadeInDown">
+    <!-- At-Risk Alert -->
+    <div class="col-4">
+        <div class="card border {{#mentee_at_risk_critical}}border-danger{{/mentee_at_risk_critical}}{{#mentee_at_risk_warning}}border-warning{{/mentee_at_risk_warning}}{{#mentee_at_risk_good}}border-success{{/mentee_at_risk_good}} border-opacity-50 rounded-4 shadow-sm h-100">
+            <div class="card-body p-2 p-md-4 d-flex flex-column flex-md-row align-items-center">
+                <div class="rounded-circle {{#mentee_at_risk_critical}}bg-danger{{/mentee_at_risk_critical}}{{#mentee_at_risk_warning}}bg-warning{{/mentee_at_risk_warning}}{{#mentee_at_risk_good}}bg-success{{/mentee_at_risk_good}} bg-opacity-10 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                    <i class="fa {{#mentee_at_risk_critical}}fa-exclamation-triangle text-danger{{/mentee_at_risk_critical}}{{#mentee_at_risk_warning}}fa-bell text-warning{{/mentee_at_risk_warning}}{{#mentee_at_risk_good}}fa-check-circle text-success{{/mentee_at_risk_good}} fa-lg"></i>
+                </div>
+                <div>
+                    <div class="text-muted small text-uppercase fw-bold mb-1">Status Alert</div>
+                    <div class="fs-5 fw-bold {{#mentee_at_risk_critical}}text-danger{{/mentee_at_risk_critical}}{{#mentee_at_risk_warning}}text-warning{{/mentee_at_risk_warning}}{{#mentee_at_risk_good}}text-success{{/mentee_at_risk_good}}">{{mentee_at_risk_reason}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Failing Courses -->
+    <div class="col-4">
+        <div class="card border border-secondary border-opacity-25 rounded-4 shadow-sm h-100">
+            <div class="card-body p-2 p-md-4 d-flex flex-column flex-md-row align-items-center">
+                <div class="rounded-circle bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                    <i class="fa fa-book text-secondary fa-lg"></i>
+                </div>
+                <div>
+                    <div class="text-muted small text-uppercase fw-bold mb-1">Failing Courses</div>
+                    <div class="fs-5 fw-bold text-dark">{{mentee_failing_courses}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Weekly Interactions -->
+    <div class="col-4">
+        <div class="card border border-info border-opacity-25 rounded-4 shadow-sm h-100">
+            <div class="card-body p-2 p-md-4 d-flex flex-column flex-md-row align-items-center">
+                <div class="rounded-circle bg-info bg-opacity-10 d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px;">
+                    <i class="fa fa-mouse-pointer text-info fa-lg"></i>
+                </div>
+                <div>
+                    <div class="text-muted small text-uppercase fw-bold mb-1">Interactions (7 Days)</div>
+                    <div class="fs-5 fw-bold text-info">{{mentee_interactions_this_week}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#has_mentee_progression}}
+<!-- Parent Pedagogical Analytics: Grade Progression -->
+<div class="row g-3 mb-4 animate__animated animate__fadeInDown">
+    <div class="col-12 col-lg-7">
+        <div class="card border border-primary border-opacity-25 rounded-4 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 pb-0 pt-3 px-4">
+                <h5 class="fw-bold mb-0 text-primary">
+                    <i class="fa fa-line-chart me-2"></i>Mentee Grade Progression
+                </h5>
+                <p class="text-muted small mt-1">Average grade performance over time.</p>
+            </div>
+            <div class="card-body px-4 pt-0">
+                <div style="position: relative; height: 250px; width: 100%;">
+                    <canvas id="mentee-progression-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{#has_mentee_radar}}
+    <div class="col-12 col-lg-5">
+        <div class="card border border-primary border-opacity-25 rounded-4 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 pb-0 pt-3 px-4">
+                <h5 class="fw-bold mb-0 text-info">
+                    <i class="fa fa-crosshairs me-2"></i>Subject Mastery
+                </h5>
+                <p class="text-muted small mt-1">Strengths across categories.</p>
+            </div>
+            <div class="card-body px-4 pt-0 d-flex justify-content-center">
+                <div style="position: relative; height: 250px; width: 100%; max-width: 300px;">
+                    <canvas id="mentee-radar-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/has_mentee_radar}}
+</div>
+
+{{#js}}
+require(['core/chartjs'], function(ChartJS) {
+    var isLight = document.querySelector('.smartdashboard-light') !== null;
+    var chartTextColor = isLight ? '#374151' : '#e0e0e0';
+    var chartGridColor = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.1)';
+    var ctx = document.getElementById('mentee-progression-chart');
+    if (ctx) {
+        new ChartJS(ctx, {
+            type: 'line',
+            data: {
+                labels: {{{mentee_progression_labels}}},
+                datasets: [{
+                    label: 'Average Grade (%)',
+                    data: {{{mentee_progression_grades}}},
+                    fill: true,
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(54, 162, 235, 1)',
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    tension: 0.3 // Smooth curves
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ' Grade: ' + context.parsed.y + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: chartTextColor },
+                        grid: { color: chartGridColor }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            color: chartTextColor,
+                            callback: function(value) { return value + '%' }
+                        },
+                        grid: { color: chartGridColor }
+                    }
+                }
+            }
+        });
+    }
+    
+    {{#has_mentee_radar}}
+    var radarCtx = document.getElementById('mentee-radar-chart');
+    if (radarCtx) {
+        new ChartJS(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: {{{mentee_radar_labels}}},
+                datasets: [{
+                    label: 'Mastery (%)',
+                    data: {{{mentee_radar_grades}}},
+                    backgroundColor: 'rgba(23, 162, 184, 0.2)', // Info color
+                    borderColor: 'rgba(23, 162, 184, 1)',
+                    pointBackgroundColor: 'rgba(23, 162, 184, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(23, 162, 184, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: chartGridColor },
+                        grid: { color: chartGridColor },
+                        pointLabels: {
+                            color: chartTextColor,
+                            font: { size: 11 }
+                        },
+                        ticks: {
+                            display: false,
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            }
+        });
+    }
+    {{/has_mentee_radar}}
+});
+{{/js}}
+{{/has_mentee_progression}}
+{{/has_target_mentee}}
+{{/isparent}}
+
+{{#hasstudentcourses}}
+<div class="student-overview-widgets animate__animated animate__fadeIn">
+    <div class="row g-3 mb-4">
+        {{! ===== MY COURSES + PROGRESS (Left Column) ===== }}
+        <div class="col-12 col-lg-7">
+            <div class="card border border-primary border-opacity-25 rounded-4 student-info-card h-100">
+                <div class="card-header bg-transparent border-0 pb-0 pt-3 px-3">
+                    <h5 class="fw-bold mb-0 smart-text-adaptive">
+                        <i class="fa fa-book text-primary me-2"></i>{{#str}}student_my_courses, local_smartdashboard{{/str}}
+                    </h5>
+                </div>
+                <div class="card-body px-3 pt-2">
+                    {{#hasstudentcourses}}
+                    <div class="d-flex flex-column gap-2">
+                        {{#studentcourses}}
+                        <a href="{{viewurl}}" class="card border border-secondary rounded-3 mb-3 bg-transparent text-decoration-none student-course-card-perfect animate__animated animate__fadeInUp">
+                            <div class="card-body p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="fw-bold mb-0 smart-text-adaptive student-course-title">{{fullname}}</h6>
+                                    {{#hasprogress}}
+                                    <span class="small fw-bold {{progresstextclass}}">{{progresspercent}}% complete</span>
+                                    {{/hasprogress}}
+                                </div>
+                                
+                                {{#hasprogress}}
+                                <div class="progress mb-2 border border-secondary border-opacity-50" style="height: 6px;">
+                                    <div class="progress-bar {{progressclass}}" role="progressbar" style="width: {{progresspercent}}%"></div>
+                                </div>
+                                {{/hasprogress}}
+                                
+                                <div class="text-muted small">
+                                    {{#hasnextdue}}
+                                    Next due: {{nextduetext}}
+                                    {{/hasnextdue}}
+                                    {{^hasnextdue}}
+                                    <span class="text-muted">No upcoming deadlines</span>
+                                    {{/hasnextdue}}
+                                </div>
+                            </div>
+                        </a>
+                        {{/studentcourses}}
+                    </div>
+                    {{/hasstudentcourses}}
+                </div>
+            </div>
+        </div>
+
+        {{! ===== UPCOMING DEADLINES (Right Column) ===== }}
+        <div class="col-12 col-lg-5">
+            <div class="card border border-primary border-opacity-25 rounded-4 student-info-card h-100">
+                <div class="card-header bg-transparent border-0 pb-0 pt-3 px-4">
+                    <h5 class="fw-bold mb-0 smart-text-adaptive">
+                        Upcoming Deadlines
+                    </h5>
+                </div>
+                <div class="card-body px-4 pt-2">
+                    {{#hasstudentdeadlines}}
+                    <div class="position-relative ms-2 mt-2">
+                        <!-- Vertical line for timeline -->
+                        <div class="position-absolute h-100 border-start border-secondary border-opacity-25" style="left: 6px; top: 12px; z-index: 1;"></div>
+                        
+                        <div class="d-flex flex-column gap-3 position-relative" style="z-index: 2;">
+                            {{#studentdeadlines}}
+                            <div class="d-flex align-items-center position-relative">
+                                <div class="rounded-circle bg-{{urgencyclass}} flex-shrink-0 border border-dark" style="width: 14px; height: 14px; margin-right: 1.25rem;"></div>
+                                <div class="flex-grow-1 min-width-0">
+                                    <div class="fw-bold text-truncate smart-text-adaptive" style="font-size: 0.95rem;">{{name}}</div>
+                                    <div class="small text-{{urgencyclass}}">{{urgencylabel}}</div>
+                                </div>
+                                <div class="ms-3 text-secondary">
+                                    {{#isurgent}}<i class="fa fa-exclamation-triangle text-warning"></i>{{/isurgent}}
+                                    {{^isurgent}}<i class="fa fa-calendar-o"></i>{{/isurgent}}
+                                </div>
+                            </div>
+                            {{/studentdeadlines}}
+                        </div>
+                    </div>
+                    {{/hasstudentdeadlines}}
+                    {{^hasstudentdeadlines}}
+                    <div class="text-center text-muted py-4">
+                        <i class="fa fa-check-circle fa-2x mb-2 text-success opacity-75"></i>
+                        <p class="mb-0 small">{{#str}}student_no_deadlines, local_smartdashboard{{/str}}</p>
+                    </div>
+                    {{/hasstudentdeadlines}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{! ===== MY GRADES & ACHIEVEMENTS (Row 3) ===== }}
+    <div class="row g-3 mb-4">
+        <!-- My Grades Bar Chart -->
+        <div class="col-12 col-lg-7">
+            <div class="card border border-primary border-opacity-25 rounded-4 h-100 student-info-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4 smart-text-adaptive">My Grades</h5>
+                    
+                    {{#hasstudentgrades}}
+                    <div class="d-flex align-items-end justify-content-around pb-1 pt-3 px-2 w-100" style="height: 150px;">
+                        {{#studentgrades}}
+                        <div class="d-flex flex-column align-items-center justify-content-end h-100" style="width: 45px;">
+                            <!-- Letter Grade -->
+                            <div class="small fw-bold {{gradeclass}} mb-1">{{lettergrade}}</div>
+                            
+                            <!-- Bar Track -->
+                            <div class="w-100 d-flex align-items-end rounded-top" style="height: 90px; max-width: 32px;">
+                                <!-- Actual Bar -->
+                                <div class="bg-primary rounded-top w-100 shadow-sm" style="height: {{percent}}%; min-height: 4px; opacity: 0.9; transition: height 0.5s ease-out;"></div>
+                            </div>
+                            
+                            <!-- Course Name -->
+                            <div class="smart-text-adaptive small mt-2 text-truncate w-100 text-center" style="font-size: 0.75rem;" title="{{coursefullname}}">{{coursename}}</div>
+                        </div>
+                        {{/studentgrades}}
+                    </div>
+                    {{/hasstudentgrades}}
+                    {{^hasstudentgrades}}
+                    <div class="text-center text-muted py-5">
+                        <p class="mb-0 small">No grades available yet.</p>
+                    </div>
+                    {{/hasstudentgrades}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Activity -->
+        <div class="col-12 col-lg-5">
+            <div class="card border border-primary border-opacity-25 rounded-4 h-100 student-info-card">
+                <div class="card-body p-4 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0 smart-text-adaptive">Study Activity</h5>
+                            {{#studentstreak}}
+                            <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 py-1 px-2" data-bs-toggle="tooltip" title="{{studentstreak}} consecutive days active">
+                                <i class="fa fa-fire text-warning me-1"></i>{{studentstreak}} Day Streak
+                            </span>
+                            {{/studentstreak}}
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center text-secondary small mb-3">
+                            <span>Past 7 Days (Learning Actions)</span>
+                            <span class="opacity-75">{{studenttotalinteractions}} actions</span>
+                        </div>
+                        
+                        <!-- 7-Day Heatmap -->
+                        <div class="d-flex justify-content-between">
+                            {{#studentheatmap}}
+                            <div class="text-center d-flex flex-column align-items-center" data-bs-toggle="tooltip" title="{{tooltip}}" style="cursor: pointer;">
+                                <div class="rounded-3 mb-1 shadow-sm d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px; background-color: {{color}}; color: {{textcolor}}; font-size: 0.9rem; transition: transform 0.15s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                    {{count}}
+                                </div>
+                                <div class="text-secondary" style="font-size: 0.7rem;">{{day}}</div>
+                            </div>
+                            {{/studentheatmap}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/hasstudentcourses}}
+
+{{^hasstudentcourses}}
+    {{#showsitecatalog}}
+    <div class="site-catalog-fallback w-100 py-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-dark fw-bold mb-0"><i class="fa fa-compass text-primary me-2"></i>Explore Courses</h4>
+        </div>
+        
+        <div class="card p-3 mb-4 border-0 shadow-sm rounded-3 bg-white">
+            <div class="row align-items-end g-2">
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <label class="fw-bold mb-1 d-block text-muted small">Search</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-muted px-2"><i class="fa fa-search"></i></span>
+                        <input type="text" id="sd-course-search" class="form-control border-start-0 ps-0" placeholder="Find a course...">
+                    </div>
+                </div>
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <label class="fw-bold mb-1 d-block text-muted small">Category</label>
+                    <select id="sd-course-category" class="form-select">
+                        <option value="all">All Categories</option>
+                        {{#topcategories}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/topcategories}}
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2 mb-md-0" id="sd-subcategory-container" style="display: none;">
+                    <label class="fw-bold mb-1 d-block text-muted small text-uppercase text-primary" style="font-size: 0.7rem; letter-spacing: 0.5px;">Level 2</label>
+                    <select id="sd-course-subcategory" class="form-select border-primary shadow-sm">
+                        <option value="all">All Subcategories</option>
+                    </select>
+                </div>
+                <div class="col-md-3 mb-2 mb-md-0" id="sd-subsubcategory-container" style="display: none;">
+                    <label class="fw-bold mb-1 d-block text-muted small text-uppercase text-info" style="font-size: 0.7rem; letter-spacing: 0.5px;">Level 3</label>
+                    <select id="sd-course-subsubcategory" class="form-select border-info shadow-sm">
+                        <option value="all">All Subcategories</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row align-items-end g-2 mt-2">
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <label class="fw-bold mb-1 d-block text-muted small">Teacher</label>
+                    <select id="sd-course-teacher" class="form-select">
+                        <option value="all">All Teachers</option>
+                        {{#siteteachers}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/siteteachers}}
+                    </select>
+                </div>
+                
+                {{#hasprograms}}
+                <div class="col-md-3 mb-2 mb-md-0">
+                    <label class="fw-bold mb-1 d-block text-muted small">Program</label>
+                    <select id="sd-course-program" class="form-select">
+                        <option value="all">All Programs</option>
+                        {{#siteprograms}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/siteprograms}}
+                    </select>
+                </div>
+                {{/hasprograms}}
+                
+                <div class="col-md-auto text-md-end text-start mt-2 mt-md-0 flex-grow-1">
+                    <a href="{{config.wwwroot}}/course/index.php" class="btn btn-outline-primary rounded-pill btn-sm fw-bold px-3 py-2 w-100">Full Catalog <i class="fa fa-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4" id="sd-catalog-grid">
+        {{#hassitecatalog}}
+            {{> local_smartdashboard/sections/catalog_course_card }}
+        {{/hassitecatalog}}
+        {{^hassitecatalog}}
+            <div class="col-12 text-center text-muted py-5 w-100">
+                <i class="fa fa-book fa-3x mb-3 opacity-25"></i>
+                <p class="mb-0 fs-5">{{#str}}student_no_courses, local_smartdashboard{{/str}}</p>
+                <p class="small text-muted">No courses are currently available on the site.</p>
+            </div>
+        {{/hassitecatalog}}
+            <div class="col-12 text-center text-muted py-5 w-100" id="sd-no-results-msg" style="display: none;">
+                <i class="fa fa-search fa-3x mb-3 opacity-25"></i>
+                <p class="mb-0 fs-5">No courses found matching your criteria</p>
+                <button class="btn btn-link mt-2" onclick="$('#sd-course-search').val(''); $('#sd-course-category').val('all'); if($('#sd-course-teacher').length) $('#sd-course-teacher').val('all'); if($('#sd-course-program').length) $('#sd-course-program').val('all'); $('#sd-course-search').trigger('input');">Clear Filters</button>
+            </div>
+        </div>
+    </div>
+    {{/showsitecatalog}}
+{{/hasstudentcourses}}
+
+{{#js}}
+require(['jquery'], function($) {
+    var categories = {{#categories_json}}{{{categories_json}}}{{/categories_json}}{{^categories_json}}[]{{/categories_json}};
+    
+    function populateDropdown($select, parentId) {
+        $select.html('<option value="all">All Subcategories</option>');
+        var hasChildren = false;
+        if (parentId !== 'all') {
+            var children = categories.filter(function(c) { return c.parent == parentId; });
+            if (children.length > 0) {
+                children.forEach(function(c) {
+                    $select.append('<option value="' + c.id + '">' + c.name + '</option>');
+                });
+                hasChildren = true;
+            }
+        }
+        return hasChildren;
+    }
+
+    $('#sd-course-category').on('change', function() {
+        var parentId = $(this).val();
+        var $subcatContainer = $('#sd-subcategory-container');
+        var $subsubcatContainer = $('#sd-subsubcategory-container');
+        
+        var hasChildren = populateDropdown($('#sd-course-subcategory'), parentId);
+        if (hasChildren) {
+            $subcatContainer.show();
+        } else {
+            $subcatContainer.hide();
+        }
+        
+        // Hide and reset level 3
+        $subsubcatContainer.hide();
+        $('#sd-course-subsubcategory').val('all');
+        $('#sd-course-subcategory').val('all');
+        
+        filterCourses();
+    });
+
+    $('#sd-course-subcategory').on('change', function() {
+        var parentId = $(this).val();
+        var $subsubcatContainer = $('#sd-subsubcategory-container');
+        
+        var hasChildren = populateDropdown($('#sd-course-subsubcategory'), parentId);
+        if (hasChildren) {
+            $subsubcatContainer.show();
+        } else {
+            $subsubcatContainer.hide();
+        }
+        
+        $('#sd-course-subsubcategory').val('all');
+        filterCourses();
+    });
+
+    function filterCourses() {
+        var searchTerm = $('#sd-course-search').val().toLowerCase().trim();
+        var catId = $('#sd-course-category').val();
+        var subcatId = $('#sd-course-subcategory').val();
+        var subsubcatId = $('#sd-course-subsubcategory').val();
+        
+        var teacherId = $('#sd-course-teacher').length ? $('#sd-course-teacher').val() : 'all';
+        var programId = $('#sd-course-program').length ? $('#sd-course-program').val() : 'all';
+        
+        var activeCatId = (subsubcatId !== 'all' && subsubcatId) ? subsubcatId : ((subcatId !== 'all' && subcatId) ? subcatId : catId);
+        var visibleCount = 0;
+
+        $('.sc-catalog-col').each(function() {
+            var $card = $(this);
+            var title = ($card.data('title') || '').toString().toLowerCase();
+            var path = $card.data('categorypath') || '';
+            var teachers = ($card.data('teacherids') || '').toString().split(',');
+            var programs = ($card.data('programids') || '').toString().split(',');
+
+            var matchSearch = searchTerm === '' || title.indexOf(searchTerm) > -1;
+            var matchCat = activeCatId === 'all' || path.indexOf('/' + activeCatId + '/') > -1;
+            var matchTeacher = teacherId === 'all' || teachers.indexOf(teacherId) > -1;
+            var matchProgram = programId === 'all' || programs.indexOf(programId) > -1;
+
+            if (matchSearch && matchCat && matchTeacher && matchProgram) {
+                $card.show();
+                visibleCount++;
+            } else {
+                $card.hide();
+            }
+        });
+        
+        if (visibleCount === 0 && $('.sc-catalog-col').length > 0) {
+            $('#sd-no-results-msg').show();
+        } else {
+            $('#sd-no-results-msg').hide();
+        }
+    }
+
+    $('#sd-course-search').on('input', filterCourses);
+    $('#sd-course-subsubcategory').on('change', filterCourses);
+    if ($('#sd-course-teacher').length) {
+        $('#sd-course-teacher').on('change', filterCourses);
+    }
+    if ($('#sd-course-program').length) {
+        $('#sd-course-program').on('change', filterCourses);
+    }
+});
+{{/js}}

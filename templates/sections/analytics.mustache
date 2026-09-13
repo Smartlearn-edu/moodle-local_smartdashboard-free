@@ -1,0 +1,104 @@
+<!-- Analytics Section (Placeholder) -->
+                <div id="section-analytics" class="dashboard-section d-none">
+                    {{#showanalytics}}
+                    <div class="card shadow-sm border-0 mb-4 animate__animated animate__fadeIn">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4"><i class="fa fa-bar-chart text-primary me-2"></i> {{#str}}system_analytics, local_smartdashboard{{/str}}</h4>
+                            
+                            <!-- Key Metrics Row -->
+                             <div id="admin-stats-row" class="row mb-5">
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 border rounded bg-white text-dark text-center h-100 shadow-sm">
+                                        <h6 class="text-uppercase small text-muted">{{#str}}to, local_smartdashboard{{/str}}tal Students</h6>
+                                        <h2 id="total-students-count" class="fw-bold mb-0">-</h2>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 border rounded bg-white text-dark text-center h-100 shadow-sm">
+                                         <h6 class="text-uppercase small text-muted">Active Students</h6>
+                                         <h2 id="active-students-count" class="fw-bold mb-0 text-success">-</h2>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 border rounded bg-white text-dark text-center h-100 shadow-sm">
+                                         <h6 class="text-uppercase small text-muted">{{#str}}total_enrollments, local_smartdashboard{{/str}}</h6>
+                                         <h2 id="total-enrollments-count" class="fw-bold mb-0 text-primary">-</h2>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 border rounded bg-white text-dark text-center h-100 shadow-sm">
+                                        <h6 class="text-uppercase small text-muted">{{#str}}to, local_smartdashboard{{/str}}tal Teachers</h6>
+                                        <h2 id="total-teachers-count" class="fw-bold mb-0">-</h2>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="p-3 border rounded bg-white text-dark text-center h-100 shadow-sm">
+                                        <h6 class="text-uppercase small text-muted">Active {{#str}}courses, local_smartdashboard{{/str}}</h6>
+                                        <h2 id="total-courses-count" class="fw-bold mb-0">-</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Charts Row -->
+                            <div class="row">
+                                <div class="col-md-8 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-header bg-white border-0">
+                                            <h6 class="fw-bold mb-0">Enrollments per {{#str}}category, local_smartdashboard{{/str}}</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div style="position: relative; height: 300px; width: 100%;">
+                                                <canvas id="chart-enrollments-category"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm">
+                                        <div class="card-header bg-white border-0">
+                                            <h6 class="fw-bold mb-0">Activity Distribution</h6>
+                                        </div>
+                                        <div class="card-body d-flex align-items-center justify-content-center">
+                                            <div style="position: relative; height: 250px; width: 100%;">
+                                                <canvas id="chart-activities"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- {{#str}}detailed, local_smartdashboard{{/str}} Table -->
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0">{{#str}}detailed, local_smartdashboard{{/str}} {{#str}}category, local_smartdashboard{{/str}} Statistics</h5>
+                                    <button id="btn-admin-export" class="btn btn-outline-secondary btn-sm">
+                                        <i class="fa fa-download me-1"></i> Export Data
+                                    </button>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle" id="admin-analytics-table">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>{{#str}}category, local_smartdashboard{{/str}}</th>
+                                                <th class="text-center">{{#str}}courses, local_smartdashboard{{/str}}</th>
+                                                <th class="text-center">Students</th>
+                                                <th class="text-center">Teachers</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Computed Rows -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {{/showanalytics}}
+                    {{^showanalytics}}
+                    <div class="alert alert-light border">
+                        <h4><i class="fa fa-bar-chart text-warning"></i> {{#str}}section_analytics, local_smartdashboard{{/str}}</h4>
+                        <p>Course analytics will appear here.</p>
+                    </div>
+                    {{/showanalytics}}
+                </div>

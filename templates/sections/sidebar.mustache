@@ -1,0 +1,107 @@
+{{#showsidebar}}
+        <div id="sidebar-col" class="col-12 col-md-3 min-vh-100 p-0 transform-sidebar" role="navigation" aria-label="Dashboard Navigation" style="transition: all 0.3s ease;">
+            <div class="smartdashboard-sidebar p-3 sticky-top">
+                <div class="d-flex align-items-center justify-content-between mb-4 pt-2 px-2">
+                     <h4 class="smart-text-adaptive m-0 dashboard-heading-text" style="transition: opacity 0.2s;">{{#str}}dashboard, local_smartdashboard{{/str}}</h4>
+                     {{! Desktop: collapse/expand toggle (hidden on mobile) }}
+                     <button id="sidebar-toggle-btn" class="btn btn-link smart-text-adaptive p-0 border-0 d-none d-md-inline-flex" type="button" aria-label="Toggle Dashboard Navigation" aria-expanded="false" aria-controls="sidebar-col">
+                        <i class="fa fa-columns fa-lg"></i>
+                     </button>
+                     {{! Mobile: close (X) button (hidden on desktop) }}
+                     <button id="sidebar-close-btn" class="btn p-1 border-0 d-md-none" type="button" aria-label="Close Navigation">
+                        <i class="fa fa-times fa-lg"></i>
+                     </button>
+                </div>
+                <ul class="nav flex-column" id="dashboard-sidebar-nav">
+                    {{#showoverview}}
+                    <li class="nav-item">
+                        <a class="nav-link active" style="cursor: pointer;" data-section="section-overview">
+                            <i class="fa fa-th-large"></i> <span class="nav-text">{{#str}}section_overview, local_smartdashboard{{/str}}</span>
+                        </a>
+                    </li>
+                    {{/showoverview}}
+                    {{#showagenda}}
+                    <li class="nav-item" id="nav-daily-plan">
+                        <a class="nav-link" style="cursor: pointer;" data-section="section-daily-plan">
+                            <i class="fa fa-calendar-check-o"></i> <span class="nav-text">{{#str}}todays_agenda, local_smartdashboard{{/str}}</span>
+                        </a>
+                    </li>
+                    {{/showagenda}}
+                    {{#showgradedetails}}
+                    <li class="nav-item" id="nav-grade-details">
+                        <a class="nav-link" style="cursor: pointer;" data-section="section-grade-details">
+                            <i class="fa fa-line-chart"></i> <span class="nav-text">Grade Details</span>
+                        </a>
+                    </li>
+                    {{/showgradedetails}}
+                    {{#showprogress}}
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" style="cursor: pointer;" data-toggle="collapse" data-target="#submenu-progress" data-bs-toggle="collapse" data-bs-target="#submenu-progress" aria-expanded="false">
+                            <i class="fa fa-users"></i> <span class="nav-text">{{#str}}section_progress, local_smartdashboard{{/str}}</span>
+                            <i class="fa fa-angle-down float-end small mt-1 nav-chevron"></i>
+                        </a>
+                        <div class="collapse" id="submenu-progress">
+                            <ul class="nav flex-column ms-3">
+                                <li class="nav-item">
+                                    <a class="nav-link small" style="cursor: pointer;" data-section="section-progress">
+                                        <i class="fa fa-th-list me-1"></i> <span class="nav-text">{{#str}}overview, local_smartdashboard{{/str}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link small" style="cursor: pointer;" data-section="section-progress-detailed">
+                                        <i class="fa fa-user me-1"></i> <span class="nav-text">{{#str}}detailed, local_smartdashboard{{/str}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link small" style="cursor: pointer;" data-section="section-progress-risk">
+                                        <i class="fa fa-exclamation-triangle me-1"></i> <span class="nav-text">{{#str}}risk, local_smartdashboard{{/str}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link small" style="cursor: pointer;" data-section="section-progress-grades">
+                                        <i class="fa fa-graduation-cap me-1"></i> <span class="nav-text">{{#str}}grades_overview, local_smartdashboard{{/str}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    {{/showprogress}}
+                    {{#showgrading}}
+                    <li class="nav-item">
+                        <a class="nav-link" style="cursor: pointer;" data-section="section-grading">
+                            <i class="fa fa-check-square"></i> <span class="nav-text">{{#str}}section_grading, local_smartdashboard{{/str}}</span>
+                        </a>
+                    </li>
+                    {{/showgrading}}
+                    {{#showanalytics}}
+                    <li class="nav-item">
+                        <a class="nav-link" style="cursor: pointer;" data-section="section-analytics">
+                            <i class="fa fa-bar-chart"></i> <span class="nav-text">{{#str}}section_analytics, local_smartdashboard{{/str}}</span>
+                        </a>
+                    </li>
+                    {{/showanalytics}}
+                    {{#showpayment}}
+                    <li class="nav-item">
+                        <a class="nav-link" style="cursor: pointer;" data-section="section-payments">
+                            <i class="fa fa-money"></i> <span class="nav-text">{{#str}}payments, local_smartdashboard{{/str}}</span>
+                        </a>
+                    </li>
+                    {{/showpayment}}
+                    {{#showmagic}}
+                    <li class="nav-item">
+                        <a class="nav-link" style="cursor: pointer;" data-section="section-magic">
+                            <i class="fa fa-magic"></i> <span class="nav-text">{{#str}}magic_reports, local_smartdashboard{{/str}}</span>
+                        </a>
+                    </li>
+                    {{/showmagic}}
+                    {{#showsettings}}
+                     <li class="nav-item mt-4">
+                        <a class="nav-link" style="cursor: pointer;" data-section="section-settings">
+                            <i class="fa fa-cog"></i> <span class="nav-text">{{#str}}section_settings, local_smartdashboard{{/str}}</span>
+                        </a>
+                    </li>
+                    {{/showsettings}}
+                </ul>
+            </div>
+        </div>
+{{/showsidebar}}

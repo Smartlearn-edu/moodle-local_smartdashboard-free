@@ -1,0 +1,88 @@
+{{!
+    @template local_smartdashboard/sections/grade_details
+    Grade Details section for students.
+}}
+<div id="section-grade-details" class="dashboard-section d-none">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0 smart-text-adaptive">{{#str}} grade, local_smartdashboard {{/str}} Details</h4>
+    </div>
+    
+    <div class="card border-0 shadow-sm rounded-4 w-100 p-4">
+        
+        <ul class="nav nav-pills mb-4 mt-3" id="reportTabs" role="tablist">
+          <li class="nav-item me-3" role="presentation">
+            <button class="nav-link active px-4 py-2 fw-bold" style="font-size: 1.1rem; border-radius: 8px; border: 1px solid var(--bs-border-color, #dee2e6); box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="grades-tab" data-bs-toggle="tab" data-bs-target="#grades" type="button" role="tab" aria-controls="grades" aria-selected="true">
+              <i class="fa fa-bar-chart me-2"></i>{{#str}} grade, local_smartdashboard {{/str}}
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link px-4 py-2 fw-bold" style="font-size: 1.1rem; border-radius: 8px; border: 1px solid var(--bs-border-color, #dee2e6); box-shadow: 0 2px 4px rgba(0,0,0,0.05);" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab" aria-controls="analysis" aria-selected="false">
+              <i class="fa fa-magic me-2"></i>{{#str}} aianalysisresult, local_smartdashboard {{/str}}
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="reportTabsContent">
+          <!-- GRADES TAB -->
+          <div class="tab-pane fade show active" id="grades" role="tabpanel" aria-labelledby="grades-tab">
+              
+              <div class="inline-grades-wrapper">
+                  {{{inlinegrades}}}
+              </div>
+              
+              <div class="text-center mt-5 pt-4" style="border-top: 1px solid var(--bs-border-color, #dee2e6);">
+                  <form method="post" action="" style="display: inline-block;">
+                      <input type="hidden" name="userid" value="{{userid}}">
+                      <input type="hidden" name="action" value="export">
+                      <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-download me-2"></i>{{#str}} exporthtml, local_smartdashboard {{/str}}</button>
+                      <div style="margin-top: 8px; text-align: center;">
+                          <input type="checkbox" id="includedesc" name="includedesc" value="1">
+                          <label for="includedesc" style="cursor: pointer; margin-bottom: 0;">
+                              {{#str}} includedescription, local_smartdashboard {{/str}}
+                          </label>
+                      </div>
+                  </form>
+              </div>
+          </div>
+
+          <!-- ANALYSIS TAB -->
+          <div class="tab-pane fade" id="analysis" role="tabpanel" aria-labelledby="analysis-tab">
+              
+              <div class="mb-4">
+                  {{#enableinstantanalysis}}
+                      <button type="button" id="btn-moodle-ai-test" class="btn btn-success btn-lg" style="margin-left: 10px;" data-userid="{{userid}}">
+                          {{#str}} viewanalysisnow, local_smartdashboard {{/str}}
+                      </button>
+                      <div id="ai-inline-results-container" class="mt-4" style="display: none; padding: 20px; border: 1px solid var(--bs-border-color, #dee2e6); border-radius: 0.25rem; background-color: var(--bs-body-bg, #fff);"></div>
+                  {{/enableinstantanalysis}}
+              </div>
+              
+              {{#hashistory}}
+              <div class="mt-5">
+                  <h3>{{#str}} analysishistory, local_smartdashboard {{/str}}</h3>
+                  <div class="accordion" id="aiHistoryAccordion">
+                      {{#history}}
+                      <div class="card mb-2">
+                          <div class="card-header" id="heading{{id}}">
+                              <h2 class="mb-0">
+                                  <button class="btn btn-link w-100 text-start {{^show}}collapsed{{/show}}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{id}}" aria-expanded="{{expanded}}" aria-controls="collapse{{id}}">
+                                      <i class="fa fa-history me-2"></i>{{date}}
+                                  </button>
+                              </h2>
+                          </div>
+                          <div id="collapse{{id}}" class="collapse {{show}}" aria-labelledby="heading{{id}}" data-bs-parent="#aiHistoryAccordion">
+                              <div class="card-body">
+                                  {{{content}}}
+                              </div>
+                          </div>
+                      </div>
+                      {{/history}}
+                  </div>
+              </div>
+              {{/hashistory}}
+
+          </div>
+        </div>
+        
+    </div>
+</div>

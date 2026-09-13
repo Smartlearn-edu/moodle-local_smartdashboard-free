@@ -1,0 +1,26 @@
+{{=<% %>=}}
+<ion-list>
+    <ion-list-header>
+        <ion-label>{{ 'plugin.local_smartdashboard.section_progress' | translate }}</ion-label>
+    </ion-list-header>
+
+    <%#courses%>
+    <ion-item>
+        <ion-label class="ion-text-wrap">
+            <h2><% name %></h2>
+            <p>{{ 'plugin.local_smartdashboard.category' | translate }}: <% categoryname %></p>
+        </ion-label>
+        <ion-badge slot="end" color="<% completion_color %>">
+            <% completion_percentage %>%
+        </ion-badge>
+    </ion-item>
+    <%/courses%>
+
+    <%^courses%>
+    <ion-item>
+        <ion-label class="ion-text-center">
+            <p class="sd-mobile-muted">{{ 'plugin.local_smartdashboard.nocourses' | translate }}</p>
+        </ion-label>
+    </ion-item>
+    <%/courses%>
+</ion-list>
