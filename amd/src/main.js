@@ -300,20 +300,10 @@ define(['jquery'], function($) {
                             require(['local_smartdashboard/sections/analytics'], function(m) { m.init(); });
                             $('#section-analytics').data('loaded', true);
                         }
-                    } else if (targetId === 'section-payments') {
-                        if (!$('#section-payments').data('loaded')) {
-                            require(['local_smartdashboard/sections/payments'], function(m) { m.init(); });
-                            $('#section-payments').data('loaded', true);
-                        }
                     } else if (targetId === 'section-settings') {
                         if (!$('#section-settings').data('loaded')) {
                             require(['local_smartdashboard/sections/settings'], function(m) { m.init(); });
                             $('#section-settings').data('loaded', true);
-                        }
-                    } else if (targetId === 'section-magic') {
-                        if (!$('#section-magic').data('loaded')) {
-                            require(['local_smartdashboard/sections/magic_reports'], function(m) { m.init(); });
-                            $('#section-magic').data('loaded', true);
                         }
                     } else if (targetId === 'section-grade-details') {
                         if (!$('#section-grade-details').data('loaded')) {

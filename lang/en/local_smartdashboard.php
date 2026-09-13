@@ -380,3 +380,8 @@ $string['aicooldowndesc'] = 'Minimum time in minutes between analysis requests f
 // Reset Information
 $string['resetcolorsheading'] = 'Reset Colors';
 $string['resetcolorsdesc'] = 'To reset all colors to their default values, clear each color field and save the settings. The plugin will automatically use the default color scheme.';
+
+// Pro Edition features info.
+$string['pro_features_heading'] = 'Unlock Smart Dashboard Pro';
+$string['pro_features_desc'] = 'Take your institutional analytics further with Smart Dashboard Pro: Natural Language AI SQL Reports, Parent & Mentor 360° Portal, Revenue & Payment Analytics, and Automated n8n Webhook Alerts. <a href="https://smartlearn.education" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary mt-2 d-inline-block">Explore Pro Features &rarr;</a>';
+

@@ -1494,9 +1494,9 @@ class dashboard implements renderable, templatable
             $data->showgradedetails = true;
         }
 
-        // Hide payment and magic reports for teachers/managers (only Admins should see these).
-        $data->showpayment = \is_siteadmin();
-        $data->showmagic = \is_siteadmin();
+        // Payments and Magic reports are exclusive to Smart Dashboard Pro.
+        $data->showpayment = false;
+        $data->showmagic = false;
 
         // Theme mode (dark/light).
         $thememode = \get_config('local_smartdashboard', 'thememode') ?: 'dark';

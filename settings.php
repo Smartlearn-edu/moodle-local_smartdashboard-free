@@ -135,30 +135,12 @@ if ($hassiteconfig) {
         ));
     }
 
-    // --- At-Risk Student Alert Settings ---
+    // --- Pro Edition Features Info ---
     $settings->add(new admin_setting_heading(
-        'local_smartdashboard/risk_heading',
-        get_string('risk_heading', 'local_smartdashboard'),
-        get_string('risk_heading_desc', 'local_smartdashboard')
+        'local_smartdashboard/pro_features_heading',
+        get_string('pro_features_heading', 'local_smartdashboard'),
+        get_string('pro_features_desc', 'local_smartdashboard')
     ));
-
-    $settings->add(new admin_setting_configtext(
-        'local_smartdashboard/n8n_webhook_url',
-        get_string('n8n_webhook_url', 'local_smartdashboard'),
-        get_string('n8n_webhook_url_desc', 'local_smartdashboard'),
-        '',
-        PARAM_URL
-    ));
-
-    $settings->add(new admin_setting_configtext(
-        'local_smartdashboard/n8n_webhook_token',
-        get_string('n8n_webhook_token', 'local_smartdashboard'),
-        get_string('n8n_webhook_token_desc', 'local_smartdashboard'),
-        '',
-        PARAM_TEXT
-    ));
-
-    // Note: Individual risk criteria weights are now configured inside their respective subplugins.
 
     // --- Load Subplugin Settings ---
     // Load each risk rule's settings directly into this page under its own heading.

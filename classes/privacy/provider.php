@@ -70,19 +70,6 @@ class provider implements
     public static function get_contexts_for_userid(int $userid): contextlist {
         $contextlist = new contextlist();
 
-        // Reports are stored at the system context level.
-        $sql = "SELECT c.id
-                  FROM {context} c
-                  JOIN {local_smartdashboard_reports} r ON r.userid = :reportuserid
-                 WHERE c.contextlevel = :reportcontextlevel";
-
-        $params = [
-            'reportuserid' => $userid,
-            'reportcontextlevel' => CONTEXT_SYSTEM,
-        ];
-
-        $contextlist->add_from_sql($sql, $params);
-
         // Risk data is stored at system context level.
         $sql = "SELECT c.id
                   FROM {context} c
@@ -92,19 +79,6 @@ class provider implements
         $params = [
             'riskuserid' => $userid,
             'riskcontextlevel' => CONTEXT_SYSTEM,
-        ];
-
-        $contextlist->add_from_sql($sql, $params);
-
-        // AI grades data is stored at system context level.
-        $sql = "SELECT c.id
-                  FROM {context} c
-                  JOIN {local_smartdashboard_ai_grades} g ON g.userid = :aiuserid
-                 WHERE c.contextlevel = :aicontextlevel";
-
-        $params = [
-            'aiuserid' => $userid,
-            'aicontextlevel' => CONTEXT_SYSTEM,
         ];
 
         $contextlist->add_from_sql($sql, $params);
@@ -128,18 +102,6 @@ class provider implements
 
         foreach ($contextlist as $context) {
             if ($context->contextlevel == CONTEXT_SYSTEM) {
-                // Export reports.
-                $records = $DB->get_records('local_smartdashboard_reports', ['userid' => $user->id]);
-                if (!empty($records)) {
-                    $data = (object)[
-                        'reports' => array_values((array)$records),
-                    ];
-                    \core_privacy\local\request\writer::with_context($context)->export_data(
-                        [get_string('pluginname', 'local_smartdashboard'), get_string('saved_reports', 'local_smartdashboard')],
-                        $data
-                    );
-                }
-
                 // Export risk data.
                 $riskrecords = $DB->get_records('local_smartdashboard_risk', ['userid' => $user->id]);
                 if (!empty($riskrecords)) {
@@ -148,18 +110,6 @@ class provider implements
                     ];
                     \core_privacy\local\request\writer::with_context($context)->export_data(
                         [get_string('pluginname', 'local_smartdashboard'), get_string('risk', 'local_smartdashboard')],
-                        $data
-                    );
-                }
-
-                // Export AI grades feedback.
-                $aigrades = $DB->get_records('local_smartdashboard_ai_grades', ['userid' => $user->id]);
-                if (!empty($aigrades)) {
-                    $data = (object)[
-                        'ai_grades' => array_values((array)$aigrades),
-                    ];
-                    \core_privacy\local\request\writer::with_context($context)->export_data(
-                        [get_string('pluginname', 'local_smartdashboard'), get_string('grades', 'local_smartdashboard')],
                         $data
                     );
                 }
@@ -175,9 +125,7 @@ class provider implements
     public static function delete_data_for_all_users_in_context(\context $context) {
         global $DB;
         if ($context->contextlevel == CONTEXT_SYSTEM) {
-            $DB->delete_records('local_smartdashboard_reports', []);
             $DB->delete_records('local_smartdashboard_risk', []);
-            $DB->delete_records('local_smartdashboard_ai_grades', []);
         }
     }
 
@@ -196,9 +144,7 @@ class provider implements
 
         foreach ($contextlist as $context) {
             if ($context->contextlevel == CONTEXT_SYSTEM) {
-                $DB->delete_records('local_smartdashboard_reports', ['userid' => $userid]);
                 $DB->delete_records('local_smartdashboard_risk', ['userid' => $userid]);
-                $DB->delete_records('local_smartdashboard_ai_grades', ['userid' => $userid]);
             }
         }
     }
@@ -234,13 +180,7 @@ class provider implements
             return;
         }
 
-        $sql = "SELECT userid FROM {local_smartdashboard_reports}";
-        $userlist->add_from_sql('userid', $sql, []);
-
         $sql = "SELECT userid FROM {local_smartdashboard_risk}";
-        $userlist->add_from_sql('userid', $sql, []);
-
-        $sql = "SELECT userid FROM {local_smartdashboard_ai_grades}";
         $userlist->add_from_sql('userid', $sql, []);
     }
 
@@ -264,8 +204,6 @@ class provider implements
         }
 
         [$insql, $inparams] = $DB->get_in_or_equal($userids);
-        $DB->delete_records_select('local_smartdashboard_reports', "userid $insql", $inparams);
         $DB->delete_records_select('local_smartdashboard_risk', "userid $insql", $inparams);
-        $DB->delete_records_select('local_smartdashboard_ai_grades', "userid $insql", $inparams);
     }
 }

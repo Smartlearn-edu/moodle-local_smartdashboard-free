@@ -62,17 +62,10 @@ $functions = [
         'ajax'        => true,
         'services'    => [MOODLE_OFFICIAL_MOBILE_SERVICE],
     ],
-    'local_smartdashboard_get_payment_analytics' => [
-        'classname'   => 'local_smartdashboard\external\analytics',
-        'methodname'  => 'get_payment_analytics',
-        'description' => 'Get payment analytics data including revenue and student counts',
-        'type'        => 'read',
-        'ajax'        => true,
-    ],
     'local_smartdashboard_save_dashboard_settings' => [
         'classname'   => 'local_smartdashboard\external\analytics',
         'methodname'  => 'save_dashboard_settings',
-        'description' => 'Save dashboard settings such as payment calculation mode',
+        'description' => 'Save dashboard settings',
         'type'        => 'write',
         'ajax'        => true,
     ],
@@ -81,35 +74,6 @@ $functions = [
         'methodname'  => 'get_dashboard_settings',
         'description' => 'Get dashboard settings',
         'type'        => 'read',
-        'ajax'        => true,
-    ],
-    // Magic reports (AI).
-    'local_smartdashboard_get_magic_insight' => [
-        'classname'   => 'local_smartdashboard\external\magic_analytics',
-        'methodname'  => 'get_magic_insight',
-        'description' => 'Get AI-generated insight and SQL query',
-        'type'        => 'read',
-        'ajax'        => true,
-    ],
-    'local_smartdashboard_save_magic_report' => [
-        'classname'   => 'local_smartdashboard\external\magic_analytics',
-        'methodname'  => 'save_report',
-        'description' => 'Save a custom magic report',
-        'type'        => 'write',
-        'ajax'        => true,
-    ],
-    'local_smartdashboard_get_saved_reports' => [
-        'classname'   => 'local_smartdashboard\external\magic_analytics',
-        'methodname'  => 'get_saved_reports',
-        'description' => 'Get list of saved magic reports',
-        'type'        => 'read',
-        'ajax'        => true,
-    ],
-    'local_smartdashboard_delete_magic_report' => [
-        'classname'   => 'local_smartdashboard\external\magic_analytics',
-        'methodname'  => 'delete_report',
-        'description' => 'Delete a saved magic report',
-        'type'        => 'write',
         'ajax'        => true,
     ],
     // Programs plugin integration.
@@ -145,22 +109,5 @@ $functions = [
         'type'        => 'read',
         'ajax'        => true,
         'services'    => [MOODLE_OFFICIAL_MOBILE_SERVICE],
-    ],
-    // Webhook Integration.
-    'local_smartdashboard_send_n8n_data' => [
-        'classname'   => 'local_smartdashboard\external\n8n_webhook',
-        'methodname'  => 'send_data',
-        'description' => 'Send data to an n8n webhook',
-        'type'        => 'write',
-        'ajax'        => true,
-    ],
-    // AI grades analysis
-    'local_smartdashboard_test_ai' => [
-        'classname'   => 'local_smartdashboard\external\test_ai',
-        'methodname'  => 'execute',
-        'description' => 'Test AI integration for student grades',
-        'type'        => 'read',
-        'ajax'        => true,
-        'loginrequired' => true,
     ],
 ];

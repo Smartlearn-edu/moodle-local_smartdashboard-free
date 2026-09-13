@@ -5,14 +5,15 @@
 <p align="center">
   <a href="https://moodle.org/plugins"><img src="https://img.shields.io/badge/Moodle-4.0%2B-ff6c00?style=for-the-badge&logo=moodle&logoColor=white" alt="Moodle 4.0+"></a>
   <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPL_v3-blue?style=for-the-badge" alt="GPL v3"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Release-v1.6.0-brightgreen?style=for-the-badge" alt="Release"></a>
-  <a href="#"><img src="https://img.shields.io/badge/PHP-7.4%2B-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP"></a>
-  <a href="#"><img src="https://img.shields.io/badge/AI--Powered-AI%20Hub%20%26%20Magic%20Reports-8A2BE2?style=for-the-badge" alt="AI Powered"></a>
+  <a href="https://moodle.org/plugins"><img src="https://img.shields.io/badge/Moodle-4.0%2B-ff6c00?style=for-the-badge&logo=moodle&logoColor=white" alt="Moodle 4.0+"></a>
+  <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPL_v3-blue?style=for-the-badge" alt="GPL v3"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Release-v1.5.0--free-brightgreen?style=for-the-badge" alt="Release"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Edition-Community%20Free-blueviolet?style=for-the-badge" alt="Community Edition"></a>
 </p>
 
 <p align="center">
-  <strong>A powerful, all-in-one analytics dashboard for Moodle.</strong><br>
-  Built for <b>Students</b>, <b>Teachers</b>, <b>Managers</b>, <b>Parents / Mentors</b>, and <b>Admins</b> — with a beautiful dark-mode interface.
+  <strong>A modern, powerful, and intuitive all-in-one dashboard for Moodle.</strong><br>
+  Built for <b>Students</b>, <b>Teachers</b>, and <b>Administrators</b> — with cross-course progress, deadline urgency timeline, centralized grading queue, and a beautiful dark/light interface.
 </p>
 
 ---
@@ -20,6 +21,30 @@
 ## 📖 Complete Documentation & Guides
 
 > 💡 **Looking for the comprehensive step-by-step user manual?** Check out our dedicated **[User Guide (USER_GUIDE.md)](./USER_GUIDE.md)** for in-depth role workflows, configuration tutorials, and advanced reporting examples.
+
+---
+
+## 💎 Community Edition vs. Pro Edition
+
+Smart Dashboard is distributed under the **In-Place Drop-In Upgrade Model**. You can use this Community Edition 100% free forever, or upgrade seamlessly to Pro at any time without losing any settings, user configurations, or data.
+
+| Feature | 🆓 Community Edition (Free) | 💎 Pro Edition (SmartLearn) |
+|---|:---:|:---:|
+| **Personalized Student Banner & Avatar** | ✅ | ✅ |
+| **Cross-Course Progress Cards** | ✅ | ✅ |
+| **Color-Coded Deadline Urgency Timeline** | ✅ | ✅ |
+| **My Grades Academic Snapshot** | ✅ | ✅ |
+| **Centralized Teacher Grading Queue** | ✅ | ✅ |
+| **System Enrollment & Category Statistics** | ✅ | ✅ |
+| **Dark & Light Adaptive Theme** | ✅ | ✅ |
+| **Multilingual (English, Spanish, Arabic RTL)** | ✅ | ✅ |
+| **AI Magic Reports (Natural Language to SQL)** | ❌ | ✅ |
+| **Parent & Mentor 360° Portal (Radar & Heatmaps)** | ❌ | ✅ |
+| **Revenue & Payment Analytics** | ❌ | ✅ |
+| **Automated n8n Webhook Alerts (Slack, SMS, Teams)**| ❌ | ✅ |
+| **Full 6-Rule At-Risk Retention Engine** | ❌ | ✅ |
+
+👉 **[Explore Smart Dashboard Pro at SmartLearn.education](https://smartlearn.education)**
 
 ---
 
