@@ -150,19 +150,9 @@ body.path-local-smartdashboard header#page-header {
    Student Info Card - Neon Theme Styling
    =========================================================== */
 .smartdashboard-dark {
-    background-color: #0f172a !important; /* Force the dashboard container to be dark */
+    background-color: transparent;
     color: #e2e8f0;
     width: 100%;
-}
-
-/* Force Moodle wrappers to match dark mode to avoid white gaps */
-body:has(.smartdashboard-dark),
-body:has(.smartdashboard-dark) #page-wrapper,
-body:has(.smartdashboard-dark) #page,
-body:has(.smartdashboard-dark) #region-main,
-body:has(.smartdashboard-dark) [data-region="blocks-column"],
-body:has(.smartdashboard-dark) .drawer {
-    background-color: #0f172a !important;
 }
 
 /* Ensure the card doesn't stretch beyond the screen */
@@ -353,23 +343,6 @@ body:has(.smartdashboard-dark) .drawer {
    DARK MODE — .smartdashboard-dark
    =========================================================== */
 
-
-body.path-local-smartdashboard:has(.smartdashboard-dark) {
-    background-color: #2b2d3e;
-    color: #e3e2e2;
-}
-
-/* Drawers & Secondary Nav */
-body.path-local-smartdashboard:has(.smartdashboard-dark) .drawer-content {
-    background-color: #2b2d3e;
-    padding: 0;
-}
-
-body.path-local-smartdashboard:has(.smartdashboard-dark) .secondary-navigation {
-    background-color: #1a1d21;
-    border-bottom: 1px solid #3e4152;
-    max-width: 100%;
-}
 
 /* Container */
 .smartdashboard-dark {
@@ -836,22 +809,6 @@ body.path-local-smartdashboard:has(.smartdashboard-dark) .secondary-navigation {
 /* ===========================================================
    LIGHT MODE — .smartdashboard-light
    =========================================================== */
-
-body.path-local-smartdashboard:has(.smartdashboard-light) {
-    background-color: #f0f2f5;
-    color: #1d2125;
-}
-
-body.path-local-smartdashboard:has(.smartdashboard-light) .drawer-content {
-    background-color: #f0f2f5;
-    padding: 0;
-}
-
-body.path-local-smartdashboard:has(.smartdashboard-light) .secondary-navigation {
-    background-color: #fff;
-    border-bottom: 1px solid #e5e7eb;
-    max-width: 100%;
-}
 
 /* Container — Light */
 .smartdashboard-light {

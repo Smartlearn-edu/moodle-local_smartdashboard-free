@@ -18,7 +18,7 @@
         "showmagic": true
     }
 }}
-<div class="container-fluid dashboard-container smartdashboard-{{thememode}} p-0">
+<div class="container-fluid dashboard-container {{initial_theme_class}} p-0">
     
     {{> local_smartdashboard/sections/announcements }}
 
@@ -433,7 +433,11 @@ require(['local_smartdashboard/main', 'jquery', 'core/ajax', 'core/notification'
     // Initialize Program Performance Chart
     {{#showprogramanalytics}}
     require(['core/chartjs'], function(ChartJS) {
-        var isLight = document.querySelector('.smartdashboard-light') !== null;
+        var isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark' ||
+                     document.documentElement.getAttribute('data-smartlearn-mode') === 'dark' ||
+                     (document.querySelector('.dashboard-container') &&
+                      document.querySelector('.dashboard-container').classList.contains('smartdashboard-dark'));
+        var isLight = !isDark;
         var chartTextColor = isLight ? '#374151' : '#e0e0e0';
         var chartGridColor = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.1)';
         var ctx = document.getElementById('program-performance-chart');

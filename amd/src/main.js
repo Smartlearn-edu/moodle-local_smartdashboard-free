@@ -121,6 +121,50 @@ define(['jquery'], function($) {
             // Sidebar Toggle Logic (Vanilla JS with capture to bypass Moodle 5.2 event blocking)
             var $dashboardContainer = $('.dashboard-container');
 
+            // --- Theme Mode Auto-Inheritance ---
+            function syncThemeMode() {
+                var isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark' ||
+                             document.documentElement.getAttribute('data-smartlearn-mode') === 'dark' ||
+                             (document.body && document.body.getAttribute('data-bs-theme') === 'dark');
+                var container = document.querySelector('.dashboard-container');
+                if (container) {
+                    if (isDark) {
+                        container.classList.add('smartdashboard-dark');
+                        container.classList.remove('smartdashboard-light');
+                    } else {
+                        container.classList.add('smartdashboard-light');
+                        container.classList.remove('smartdashboard-dark');
+                    }
+                }
+            }
+            syncThemeMode();
+
+            window.addEventListener('smartlearn:theme-mode-changed', function() {
+                syncThemeMode();
+            });
+
+            if (window.MutationObserver) {
+                var themeObserver = new MutationObserver(function(mutations) {
+                    for (var i = 0; i < mutations.length; i++) {
+                        var attr = mutations[i].attributeName;
+                        if (attr === 'data-bs-theme' || attr === 'data-smartlearn-mode') {
+                            syncThemeMode();
+                            break;
+                        }
+                    }
+                });
+                themeObserver.observe(document.documentElement, {
+                    attributes: true,
+                    attributeFilter: ['data-bs-theme', 'data-smartlearn-mode']
+                });
+                if (document.body) {
+                    themeObserver.observe(document.body, {
+                        attributes: true,
+                        attributeFilter: ['data-bs-theme']
+                    });
+                }
+            }
+
             // Check localStorage (only collapse on desktop, never on mobile)
             if (!isMobile()) {
                 var isCollapsed = localStorage.getItem('smartdashboard_sidebar_collapsed') === 'true';

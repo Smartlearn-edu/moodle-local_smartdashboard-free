@@ -71,17 +71,6 @@ if ($hassiteconfig) {
     ));
 
     $settings->add(new admin_setting_configselect(
-        'local_smartdashboard/thememode',
-        get_string('thememode', 'local_smartdashboard'),
-        get_string('thememode_desc', 'local_smartdashboard'),
-        'dark',
-        [
-            'dark'  => get_string('thememode_dark', 'local_smartdashboard'),
-            'light' => get_string('thememode_light', 'local_smartdashboard'),
-        ]
-    ));
-
-    $settings->add(new admin_setting_configselect(
         'local_smartdashboard/parent_terminology',
         get_string('parent_terminology', 'local_smartdashboard'),
         get_string('parent_terminology_desc', 'local_smartdashboard'),

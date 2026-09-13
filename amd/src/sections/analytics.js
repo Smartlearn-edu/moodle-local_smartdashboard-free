@@ -200,7 +200,11 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_smartdashboard/core/u
         },
 
         renderCategoryChart: function(categories, ChartJS) {
-            var isLight = document.querySelector('.smartdashboard-light') !== null;
+            var isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark' ||
+                         document.documentElement.getAttribute('data-smartlearn-mode') === 'dark' ||
+                         (document.querySelector('.dashboard-container') &&
+                          document.querySelector('.dashboard-container').classList.contains('smartdashboard-dark'));
+            var isLight = !isDark;
             var chartTextColor = isLight ? '#374151' : '#e0e0e0';
             var chartGridColor = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)';
 
@@ -262,7 +266,11 @@ define(['jquery', 'core/ajax', 'core/notification', 'local_smartdashboard/core/u
         },
 
         renderActivityChart: function(activities, ChartJS) {
-            var isLight = document.querySelector('.smartdashboard-light') !== null;
+            var isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark' ||
+                         document.documentElement.getAttribute('data-smartlearn-mode') === 'dark' ||
+                         (document.querySelector('.dashboard-container') &&
+                          document.querySelector('.dashboard-container').classList.contains('smartdashboard-dark'));
+            var isLight = !isDark;
             var chartTextColor = isLight ? '#374151' : '#e0e0e0';
             
             var canvasId = 'chart-activities';

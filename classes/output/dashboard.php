@@ -1478,10 +1478,13 @@ class dashboard implements renderable, templatable
         $data->showpayment = false;
         $data->showmagic = false;
 
-        // Theme mode (dark/light).
-        $thememode = \get_config('local_smartdashboard', 'thememode') ?: 'dark';
-        $data->thememode = $thememode;
-        $data->isdarkmode = ($thememode === 'dark');
+        // Auto-detect theme mode from theme preference or cookie if available.
+        $theme_pref = \get_user_preferences('theme_smartlearn_mode', '');
+        if (empty($theme_pref) && isset($_COOKIE['theme_smartlearn_mode'])) {
+            $theme_pref = clean_param($_COOKIE['theme_smartlearn_mode'], PARAM_ALPHA);
+        }
+        $is_dark = ($theme_pref === 'dark');
+        $data->initial_theme_class = $is_dark ? 'smartdashboard-dark' : 'smartdashboard-light';
 
         // --- Calculate At-Risk Alerts and KPIs for Parent ---
         $failing = isset($failing_courses) ? $failing_courses : 0;
