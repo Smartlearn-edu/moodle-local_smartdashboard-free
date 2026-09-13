@@ -201,7 +201,7 @@ $string['risk_score'] = 'Risk Score';
 $string['risk_no_data'] = 'Risk data not yet available. The system calculates risk scores daily.';
 $string['messageprovider:risk_alert'] = 'At-risk student notifications';
 
-// Subplugin definition strings
+// Subplugin definition strings.
 $string['subplugintype_smartdashboardrule'] = 'Smart Dashboard Risk Rule';
 $string['subplugintype_smartdashboardrule_plural'] = 'Smart Dashboard Risk Rules';
 
@@ -282,7 +282,7 @@ $string['overallsummary'] = 'Overall Summary';
 $string['totalcourses'] = 'Total Courses';
 $string['viewmygrades'] = 'View My Grades';
 $string['exportmygrades'] = 'Export My Grades';
-// Added for marketplace compliance
+// Added for marketplace compliance.
 $string['nocontenttoexport'] = 'No content to export.';
 $string['filtergrades'] = 'Filter Grades';
 $string['allcourses'] = 'All Courses';
@@ -313,17 +313,17 @@ $string['unknownerror'] = 'Unknown error occurred';
 $string['aiconfigmissing'] = 'AI Configuration (Webhook URL) not found in Student Grades Report settings.';
 $string['analysisrequestsent'] = 'Analysis request sent successfully!';
 $string['failedtosenddata'] = 'Failed to send data. HTTP Code: {$a->code} Response: {$a->response}';
-// Color Settings
+// Color Settings.
 $string['colorsettings'] = 'Color Settings';
 $string['colorsettingsdesc'] = 'Customize the colors used in the HTML export grade reports. These settings allow you to match your institution\'s branding and improve visual accessibility.';
-// Header Colors
+// Header Colors.
 $string['headerprimarycolor'] = 'Header Primary Color';
 $string['headerprimarycolordesc'] = 'Primary color for the report header gradient background';
 $string['headersecondarycolor'] = 'Header Secondary Color';
 $string['headersecondarycolordesc'] = 'Secondary color for the report header gradient background';
 $string['headertextcolor'] = 'Header Text Color';
 $string['headertextcolordesc'] = 'Text color for the report header';
-// Grade Performance Colors
+// Grade Performance Colors.
 $string['gradeexcellentcolor'] = 'Excellent Grade Color';
 $string['gradeexcellentcolordesc'] = 'Color for excellent grade performance indicators';
 $string['gradegoodcolor'] = 'Good Grade Color';
@@ -332,19 +332,19 @@ $string['gradeaveragecolor'] = 'Average Grade Color';
 $string['gradeaveragecolordesc'] = 'Color for average grade performance indicators';
 $string['gradepoorcolor'] = 'Poor Grade Color';
 $string['gradepoorcolordesc'] = 'Color for poor grade performance indicators';
-// Table Colors
+// Table Colors.
 $string['tablebordercolor'] = 'Table Border Color';
 $string['tablebordercolordesc'] = 'Color for table borders and cell separators';
 $string['rowalternatecolor'] = 'Row Alternate Color';
 $string['rowalternatecolordesc'] = 'Background color for alternating table rows';
 $string['rowhovercolor'] = 'Row Hover Color';
 $string['rowhovercolordesc'] = 'Background color when hovering over table rows';
-// Category Colors
+// Category Colors.
 $string['categoryprimarycolor'] = 'Category Primary Color';
 $string['categoryprimarycolordesc'] = 'Primary color for category row gradient background';
 $string['categorysecondarycolor'] = 'Category Secondary Color';
 $string['categorysecondarycolordesc'] = 'Secondary color for category row gradient background';
-// Total Row Colors
+// Total Row Colors.
 $string['categorytotalprimarycolor'] = 'Category Total Primary Color';
 $string['categorytotalprimarycolordesc'] = 'Primary color for category total row gradient background';
 $string['categorytotalsecondarycolor'] = 'Category Total Secondary Color';
@@ -353,7 +353,7 @@ $string['coursetotalprimarycolor'] = 'Course Total Primary Color';
 $string['coursetotalprimarycolordesc'] = 'Primary color for course total row gradient background';
 $string['coursetotalsecondarycolor'] = 'Course Total Secondary Color';
 $string['coursetotalsecondarycolordesc'] = 'Secondary color for course total row gradient background';
-// Grade Value Colors
+// Grade Value Colors.
 $string['gradevaluecolor'] = 'Grade Value Text Color';
 $string['gradevaluecolordesc'] = 'Text color for grade values';
 $string['gradevaluebgcolor'] = 'Grade Value Background Color';
@@ -362,7 +362,7 @@ $string['percentagecolor'] = 'Percentage Text Color';
 $string['percentagecolordesc'] = 'Text color for percentage values';
 $string['percentagebgcolor'] = 'Percentage Background Color';
 $string['percentagebgcolordesc'] = 'Background color for percentage cells';
-// AI Settings
+// AI Settings.
 $string['aisettings'] = 'AI Analysis Settings';
 $string['aisettingsdesc'] = 'Configure the integration with external AI services via n8n.';
 $string['enableemailanalysis'] = 'Enable Analysis via Email';
@@ -377,11 +377,10 @@ $string['aiprompt'] = 'AI Analysis Prompt';
 $string['aipromptdesc'] = 'The prompt sent to the AI along with the student data. Customize this to change the tone or focus of the analysis.';
 $string['aicooldown'] = 'Analysis Cooldown (Minutes)';
 $string['aicooldowndesc'] = 'Minimum time in minutes between analysis requests for critical data saving. Set to 0 to disable.';
-// Reset Information
+// Reset Information.
 $string['resetcolorsheading'] = 'Reset Colors';
 $string['resetcolorsdesc'] = 'To reset all colors to their default values, clear each color field and save the settings. The plugin will automatically use the default color scheme.';
 
 // Pro Edition features info.
 $string['pro_features_heading'] = 'Unlock Smart Dashboard Pro';
 $string['pro_features_desc'] = 'Take your institutional analytics further with Smart Dashboard Pro: Natural Language AI SQL Reports, Parent & Mentor 360° Portal, Revenue & Payment Analytics, and Automated n8n Webhook Alerts. <a href="https://smartlearn.education" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary mt-2 d-inline-block">Explore Pro Features &rarr;</a>';
-
