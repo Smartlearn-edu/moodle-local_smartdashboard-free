@@ -61,6 +61,12 @@ $string['redirectadmins_desc'] = 'Should Site Administrators also be redirected?
 // Appearance Settings.
 $string['appearance_heading'] = 'Appearance';
 $string['appearance_desc'] = 'Customize the visual appearance of the Smart Dashboard.';
+
+// Course Catalog Settings.
+$string['catalog_heading'] = 'Course Catalog';
+$string['catalog_heading_desc'] = 'Configuration for the course catalog displayed on user dashboards.';
+$string['showsitecatalog'] = 'Show course catalog when not enrolled';
+$string['showsitecatalog_desc'] = 'If enabled, students who are not enrolled in any courses will see an "Explore Courses" catalog to browse and discover courses. If disabled, an empty state message will be displayed instead.';
 $string['thememode'] = 'Color Mode';
 $string['thememode_desc'] = 'Choose the color mode for the dashboard. Use "Light" if your Moodle theme has a light background, or "Dark" for dark-themed sites.';
 $string['thememode_dark'] = 'Dark Mode';
@@ -247,6 +253,7 @@ $string['student_complete'] = 'complete';
 $string['student_no_deadlines'] = 'No upcoming deadlines — you\'re all caught up!';
 $string['student_no_grades'] = 'No grades available yet.';
 $string['student_no_courses'] = 'You are not enrolled in any courses.';
+$string['student_no_courses_desc'] = 'Once you are enrolled in a course, it will appear here on your dashboard.';
 $string['student_no_progress'] = 'Not tracked';
 $string['student_due_soon'] = 'In {$a} days';
 $string['student_view_course'] = 'View Course';

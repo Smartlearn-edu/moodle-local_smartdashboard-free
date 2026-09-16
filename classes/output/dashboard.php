@@ -748,10 +748,14 @@ class dashboard implements renderable, templatable
             }
             $data->hasstudentcourses = !empty($data->studentcourses);
 
-            // If no enrolled courses, fetch site categories and top courses as a simple catalog
+            // If no enrolled courses, fetch site categories and top courses as a simple catalog if enabled in settings.
             if (!$data->hasstudentcourses) {
-                $data->showsitecatalog = true;
-                $catalog = [];
+                $showcatalogsetting = \get_config('local_smartdashboard', 'showsitecatalog');
+                $showsitecatalog = ($showcatalogsetting === false || $showcatalogsetting === null || $showcatalogsetting == 1);
+
+                if ($showsitecatalog) {
+                    $data->showsitecatalog = true;
+                    $catalog = [];
 
                 // Fetch all visible courses for client-side filtering.
                 $sql = "SELECT c.* 
@@ -964,8 +968,13 @@ class dashboard implements renderable, templatable
                     $data->hasprograms = false;
                 }
 
-                $data->sitecatalog = $catalog;
-                $data->hassitecatalog = !empty($catalog);
+                    $data->sitecatalog = $catalog;
+                    $data->hassitecatalog = !empty($catalog);
+                } else {
+                    $data->showsitecatalog = false;
+                }
+            } else {
+                $data->showsitecatalog = false;
             }
 
             // --- Student Overview: Upcoming Deadlines ---

@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_smartdashboard';
-$plugin->version   = 2026062502;
+$plugin->version   = 2026091602;
 $plugin->requires  = 2024100700; // Moodle 5.0.
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.5.0-free';
+$plugin->release   = '1.5.1-free';

@@ -85,6 +85,20 @@ if ($hassiteconfig) {
         ]
     ));
 
+    // --- Course Catalog Settings ---
+    $settings->add(new admin_setting_heading(
+        'local_smartdashboard/catalog_heading',
+        get_string('catalog_heading', 'local_smartdashboard'),
+        get_string('catalog_heading_desc', 'local_smartdashboard')
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'local_smartdashboard/showsitecatalog',
+        get_string('showsitecatalog', 'local_smartdashboard'),
+        get_string('showsitecatalog_desc', 'local_smartdashboard'),
+        1
+    ));
+
     // --- Student Icons ---
     $settings->add(new admin_setting_heading(
         'local_smartdashboard/student_icons_heading',

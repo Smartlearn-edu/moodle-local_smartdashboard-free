@@ -462,8 +462,22 @@ require(['core/chartjs'], function(ChartJS) {
         </div>
     </div>
     {{/showsitecatalog}}
+    {{^showsitecatalog}}
+    <div class="site-no-courses-empty w-100 py-5 text-center animate__animated animate__fadeIn">
+        <div class="card border-0 shadow-sm rounded-4 p-5 mx-auto bg-white" style="max-width: 580px;">
+            <div class="mb-3">
+                <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10 text-primary" style="width: 72px; height: 72px;">
+                    <i class="fa fa-graduation-cap fa-2x"></i>
+                </span>
+            </div>
+            <h4 class="fw-bold text-dark mb-2">{{#str}}student_no_courses, local_smartdashboard{{/str}}</h4>
+            <p class="text-muted mb-0">{{#str}}student_no_courses_desc, local_smartdashboard{{/str}}</p>
+        </div>
+    </div>
+    {{/showsitecatalog}}
 {{/hasstudentcourses}}
 
+{{#showsitecatalog}}
 {{#js}}
 require(['jquery'], function($) {
     var categories = {{#categories_json}}{{{categories_json}}}{{/categories_json}}{{^categories_json}}[]{{/categories_json}};
@@ -567,3 +581,4 @@ require(['jquery'], function($) {
     }
 });
 {{/js}}
+{{/showsitecatalog}}
