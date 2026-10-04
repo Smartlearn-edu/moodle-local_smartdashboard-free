@@ -469,17 +469,21 @@ class analytics extends external_api
             $completion = new \completion_info($course);
             $iscompletionenabled = $completion->is_enabled();
 
-            // Get grades for all items in course for this user efficiently
+            // Get grades for all items in course for this user efficiently.
             // We use key: itemmodule, iteminstance => grade.
+            // Note: In Moodle, get_records_sql() keys results by the first column in SELECT.
+            // Using g.id as the first column ensures records are not overwritten when activities share the same module name.
             $grades = [];
-            // Querying grades (Lightweight version).
-            $sql = "SELECT i.itemmodule, i.iteminstance, g.finalgrade
+            $sql = "SELECT g.id, i.itemmodule, i.iteminstance, i.itemnumber, g.finalgrade
                     FROM {grade_items} i
                     JOIN {grade_grades} g ON g.itemid = i.id
-                    WHERE i.courseid = :courseid AND i.itemtype = 'mod' AND g.userid = :userid";
+                    WHERE i.courseid = :courseid AND i.itemtype = 'mod' AND g.userid = :userid
+                    ORDER BY i.itemnumber ASC";
             $graderecords = $DB->get_records_sql($sql, ['courseid' => $course->id, 'userid' => $studentid]);
             foreach ($graderecords as $rec) {
-                $grades[$rec->itemmodule][$rec->iteminstance] = $rec->finalgrade;
+                if (!isset($grades[$rec->itemmodule][$rec->iteminstance]) || $rec->itemnumber == 0) {
+                    $grades[$rec->itemmodule][$rec->iteminstance] = $rec->finalgrade;
+                }
             }
 
             foreach ($modinfo->cms as $cm) {
